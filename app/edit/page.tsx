@@ -287,40 +287,6 @@ export default function EditPage() {
                   style={{ background: '#FFF', border: '2px solid #D4844A50', color: 'var(--warm-dark)' }}
                 />
               </div>
-              <div>
-                <label className="block text-xs font-black uppercase mb-1" style={{ color: 'var(--warm-brown)' }}>Resume</label>
-                {profile.resume_url && (
-                  <div className="flex items-center gap-3 mb-2">
-                    <a href={profile.resume_url} target="_blank" rel="noopener noreferrer"
-                      className="text-xs font-bold underline" style={{ color: 'var(--warm-orange)' }}>
-                      Current resume ↗
-                    </a>
-                    <button onClick={() => setProfile(p => ({ ...p, resume_url: '' }))}
-                      className="text-xs font-black px-2 py-1 rounded-lg" style={{ background: '#F87171', color: '#fff', border: '2px solid #C05050' }}>
-                      Remove
-                    </button>
-                  </div>
-                )}
-                <input
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  onChange={async e => {
-                    const file = e.target.files?.[0]
-                    if (!file) return
-                    const fileName = `resume_${Date.now()}.${file.name.split('.').pop()}`
-                    const { data, error } = await supabase.storage.from('resumes').upload(fileName, file, { upsert: true })
-                    if (error) { showToast('Upload failed'); return }
-                    const { data: urlData } = supabase.storage.from('resumes').getPublicUrl(data.path)
-                    setProfile(p => ({ ...p, resume_url: urlData.publicUrl }))
-                    showToast('Resume uploaded!')
-                  }}
-                  className="w-full rounded-xl px-4 py-2.5 font-bold text-sm outline-none"
-                  style={{ background: '#FFF', border: '2px solid #D4844A50', color: 'var(--warm-dark)' }}
-                />
-                <p className="text-xs font-semibold mt-1" style={{ color: 'var(--warm-brown)', opacity: 0.6 }}>
-                  Upload a PDF or Word file. Saves to cloud automatically.
-                </p>
-              </div>
               <SaveBtn onClick={saveProfile} saving={saving} />
             </div>
           )}
@@ -427,6 +393,43 @@ export default function EditPage() {
                 <button onClick={addContact} className="px-3 py-1.5 rounded-xl font-black text-xs" style={{ background: 'var(--warm-orange)', color: '#FAE8CC', border: '2px solid #A03010' }}>+ Add</button>
               </div>
               <p className="text-xs font-bold" style={{ color: 'var(--warm-brown)' }}>Icon options: github, linkedin, email, instagram, youtube, dribbble, behance</p>
+              {/* Resume upload */}
+              <div className="rounded-2xl p-4" style={{ background: '#FFFFFF80', border: '2px solid #D4844A40' }}>
+                <label className="block text-xs font-black uppercase mb-2" style={{ color: 'var(--warm-brown)' }}>Resume</label>
+                {profile.resume_url && (
+                  <div className="flex items-center gap-3 mb-2">
+                    <a href={profile.resume_url} target="_blank" rel="noopener noreferrer"
+                      className="text-xs font-bold underline" style={{ color: 'var(--warm-orange)' }}>
+                      Current resume ↗
+                    </a>
+                    <button onClick={() => { setProfile(p => ({ ...p, resume_url: '' })); saveProfile() }}
+                      className="text-xs font-black px-2 py-1 rounded-lg" style={{ background: '#F87171', color: '#fff', border: '2px solid #C05050' }}>
+                      Remove
+                    </button>
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={async e => {
+                    const file = e.target.files?.[0]
+                    if (!file) return
+                    const fileName = `resume_${Date.now()}.${file.name.split('.').pop()}`
+                    const { data, error } = await supabase.storage.from('resumes').upload(fileName, file, { upsert: true })
+                    if (error) { showToast('Upload failed'); return }
+                    const { data: urlData } = supabase.storage.from('resumes').getPublicUrl(data.path)
+                    setProfile(p => ({ ...p, resume_url: urlData.publicUrl }))
+                    await supabase.from('profile').update({ resume_url: urlData.publicUrl }).eq('id', (profile as any).id)
+                    showToast('Resume uploaded!')
+                  }}
+                  className="w-full rounded-xl px-4 py-2.5 font-bold text-sm outline-none"
+                  style={{ background: '#FFF', border: '2px solid #D4844A50', color: 'var(--warm-dark)' }}
+                />
+                <p className="text-xs font-semibold mt-1" style={{ color: 'var(--warm-brown)', opacity: 0.6 }}>
+                  PDF or Word file. Saves to cloud automatically.
+                </p>
+              </div>
+
               {contactLinks.map(c => (
                 <div key={c.id} className="flex gap-2 items-center flex-wrap">
                   <input value={c.platform} onChange={e => setContactLinks(cs => cs.map(x => x.id === c.id ? { ...x, platform: e.target.value } : x))} placeholder="Platform" className="w-28 rounded-xl px-3 py-2 font-bold text-sm outline-none" style={{ background: '#FFF', border: '2px solid #D4844A50', color: 'var(--warm-dark)' }} />
