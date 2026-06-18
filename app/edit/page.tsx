@@ -8,7 +8,10 @@ const EDIT_PASSWORD = '061105'
 type Tab = 'profile' | 'projects' | 'skills' | 'contact' | 'messages'
 
 export default function EditPage() {
-  const [authed, setAuthed] = useState(false)
+  const [authed, setAuthed] = useState(() => {
+    if (typeof window !== 'undefined') return localStorage.getItem('edit_authed') === '1'
+    return false
+  })
   const [pw, setPw] = useState('')
   const [pwError, setPwError] = useState(false)
   const [tab, setTab] = useState<Tab>('profile')
@@ -22,8 +25,13 @@ export default function EditPage() {
   const [messages, setMessages] = useState<Message[]>([])
 
   function login() {
-    if (pw === EDIT_PASSWORD) { setAuthed(true); setPwError(false) }
-    else { setPwError(true) }
+    if (pw === EDIT_PASSWORD) {
+      localStorage.setItem('edit_authed', '1')
+      setAuthed(true)
+      setPwError(false)
+    } else {
+      setPwError(true)
+    }
   }
 
   useEffect(() => {
@@ -173,13 +181,22 @@ export default function EditPage() {
             <h1 className="font-black text-3xl" style={{ color: 'var(--warm-dark)' }}>✏️ Edit Portfolio</h1>
             <p className="text-sm font-semibold mt-1" style={{ color: 'var(--warm-brown)' }}>Changes save directly to the database</p>
           </div>
-          <a
-            href="/"
-            className="px-4 py-2 rounded-xl font-black text-sm"
-            style={{ background: '#FAE8CC', border: '2px solid #D4844A', color: 'var(--warm-dark)' }}
-          >
-            ← View Site
-          </a>
+          <div className="flex gap-2">
+            <a
+              href="/"
+              className="px-4 py-2 rounded-xl font-black text-sm"
+              style={{ background: '#FAE8CC', border: '2px solid #D4844A', color: 'var(--warm-dark)' }}
+            >
+              ← View Site
+            </a>
+            <button
+              onClick={() => { localStorage.removeItem('edit_authed'); setAuthed(false) }}
+              className="px-4 py-2 rounded-xl font-black text-sm"
+              style={{ background: '#F87171', border: '2px solid #C05050', color: '#fff' }}
+            >
+              Lock 🔒
+            </button>
+          </div>
         </div>
 
         {/* Tabs */}
