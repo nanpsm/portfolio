@@ -1,16 +1,17 @@
 import type { Metadata } from 'next'
-import { Fraunces, JetBrains_Mono } from 'next/font/google'
+import { Cormorant_Garamond, Space_Mono } from 'next/font/google'
 import './globals.css'
 
-const fraunces = Fraunces({
+const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
   style: ['normal', 'italic'],
-  variable: '--font-fraunces',
+  variable: '--font-display',
 })
 
-const jetbrainsMono = JetBrains_Mono({
+const spaceMono = Space_Mono({
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['400', '700'],
   variable: '--font-mono',
 })
 
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${fraunces.variable} ${jetbrainsMono.variable}`}>{children}</body>
+      <body className={`${cormorant.variable} ${spaceMono.variable}`}>{children}</body>
     </html>
   )
 }
