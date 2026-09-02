@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 
 const reveal = {
   hidden: { opacity: 0, y: 22 },
-  visible: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.2, 0.7, 0.2, 1], delay: i * 0.07 } }),
+  visible: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.2, 0.7, 0.2, 1] as [number, number, number, number], delay: i * 0.07 } }),
 }
 
 function Reveal({ children, i = 0, style }: { children: React.ReactNode; i?: number; style?: React.CSSProperties }) {
