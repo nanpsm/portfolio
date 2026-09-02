@@ -23,6 +23,7 @@ html, body {
   background: #F5F8ED;
   font-family: var(--font-mono), monospace;
   color: var(--ink);
+  overflow-x: hidden;
 }
 
 #app { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
