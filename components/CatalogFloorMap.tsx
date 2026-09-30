@@ -200,7 +200,7 @@ function FloorMapPage({ hovered, setHovered }: {
 
 const START_SCALE = 0.28   // initial size of the catalog (0–1)
 const START_AT    = 0.0    // fraction of section scrolled before expanding begins (0 = immediately)
-const END_AT      = 1.0    // fraction of section scrolled when full screen is reached (1 = at the very end)
+const END_AT      = 0.5    // fraction of section scrolled when full screen is reached — stays full until scroll end
 const ORIGIN      = '50% 50%'
 
 function lerp(a: number, b: number, t: number) {
@@ -234,7 +234,7 @@ export default function CatalogFloorMap() {
   return (
     <div
         ref={containerRef}
-        style={{ height: '200vh', position: 'relative', background: '#F5F8ED' }}
+        style={{ height: '300vh', position: 'relative', background: '#F5F8ED' }}
       >
         <div style={{
           position: 'sticky',

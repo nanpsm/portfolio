@@ -136,8 +136,8 @@ interface BoxCarouselProps extends React.HTMLProps<HTMLDivElement> {
   debug?: boolean
   perspective?: number
   direction?: RotationDirection
-  transition?: ValueAnimationOptions
-  snapTransition?: ValueAnimationOptions
+  transition?: Omit<ValueAnimationOptions<number>, 'keyframes'>
+  snapTransition?: Omit<ValueAnimationOptions<number>, 'keyframes'>
   dragSpring?: SpringConfig
   autoPlay?: boolean
   autoPlayInterval?: number
