@@ -37,7 +37,7 @@ const RIGHT_CLIP = `polygon(
 
 function TicketContent() {
   return (
-    <div style={{
+    <div className="ticket-grid" style={{
       display: 'grid',
       gridTemplateColumns: '1fr 148px',
       borderRadius: '12px',
@@ -45,7 +45,7 @@ function TicketContent() {
       position: 'relative',
     }}>
       {/* ── Body ── */}
-      <div style={{
+      <div className="ticket-body" style={{
         background: 'linear-gradient(135deg, #E6EDDC 0%, #D8E5C8 100%)',
         padding: '36px 40px 32px 44px',
         boxShadow: 'inset 0 0 0 1px rgba(30,59,69,0.16)',
@@ -96,7 +96,7 @@ function TicketContent() {
       </div>
 
       {/* ── Stub ── */}
-      <div style={{
+      <div className="ticket-stub" style={{
         background: 'linear-gradient(180deg, #1E3B45 0%, #122730 100%)',
         borderLeft: '1.5px dashed rgba(170,221,0,0.3)',
         display: 'flex',
@@ -139,9 +139,16 @@ export default function ScrollStrokePath() {
       ref={ref}
       className="mx-auto flex h-[300vh] w-full flex-col items-center overflow-hidden bg-[#F5F8ED] px-4 text-[#1C1814]"
     >
+      <style>{`
+        @media (max-width: 640px) {
+          .ticket-grid { grid-template-columns: 1fr 90px !important; }
+          .ticket-body { padding: 20px 16px 18px 20px !important; }
+          .ticket-stub { padding: 14px 0 !important; }
+        }
+      `}</style>
       {/* ── Hero ── */}
       <div className="mt-40 relative flex w-fit flex-col items-center justify-center gap-5 text-center">
-        <LinePath className="absolute -right-[40%] top-0" scrollYProgress={scrollYProgress} />
+        <LinePath className="hidden sm:block absolute -right-[40%] top-0" scrollYProgress={scrollYProgress} />
         <p className="relative" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '11px', letterSpacing: '0.2em', color: '#8A9A7A', marginBottom: '16px' }}>
           THE COLLECTION · 2026 · SINGAPORE
         </p>

@@ -8,7 +8,7 @@ const CARD_PADDING_V = 100
 
 export default function ArtistIntro() {
   return (
-    <section style={{ background: '#F5F8ED', padding: `0 24px ${CARD_PADDING_V}px` }}>
+    <section style={{ background: '#F5F8ED', padding: `0 16px ${CARD_PADDING_V}px` }}>
       <style>{`
         .artist-tag {
           font-family: var(--font-mono), monospace;
@@ -24,6 +24,11 @@ export default function ArtistIntro() {
           background: #F4EFE4;
           color: #1E3B45;
         }
+        @media (max-width: 768px) {
+          .artist-card { grid-template-columns: 1fr !important; }
+          .artist-portrait { border-right: none !important; border-bottom: 1px solid rgba(244,239,228,0.08) !important; padding: 28px !important; }
+          .artist-plaque { padding: 32px 28px !important; }
+        }
       `}</style>
 
       <motion.div
@@ -31,6 +36,7 @@ export default function ArtistIntro() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: 'easeOut' }}
         viewport={{ once: true, amount: 0.25 }}
+        className="artist-card"
         style={{
           maxWidth: `${CARD_MAX_WIDTH}px`,
           margin: '0 auto',
@@ -43,7 +49,7 @@ export default function ArtistIntro() {
         }}
       >
         {/* ── Left: Portrait + Caption ── */}
-        <div style={{
+        <div className="artist-portrait" style={{
           padding: '36px',
           display: 'flex',
           flexDirection: 'column',
@@ -79,7 +85,7 @@ export default function ArtistIntro() {
         </div>
 
         {/* ── Right: Plaque — with spotlight glow ── */}
-        <div style={{
+        <div className="artist-plaque" style={{
           padding: '48px 52px',
           display: 'flex',
           flexDirection: 'column',
