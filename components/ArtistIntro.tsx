@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 const CARD_MAX_WIDTH = 1000
 const PORTRAIT_COL   = 420
-const CARD_PADDING_V = 100
+const CARD_PADDING_V = 32
 
 export default function ArtistIntro() {
   return (
