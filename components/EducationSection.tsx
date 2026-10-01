@@ -104,21 +104,21 @@ function NowCard() {
         fontWeight: 400, fontSize: '22px',
         color: '#14170F', margin: '0 0 4px',
       }}>
-        Independent Software Engineer
+        Fresh Graduate, Singapore
       </h4>
       <div style={{
         fontFamily: 'var(--font-jetbrains), monospace',
         fontSize: '11px', letterSpacing: '0.06em',
         color: '#1E3B45', marginBottom: '12px',
       }}>
-        Self-directed · Singapore · 2026 – Present
+        BCS (Big Data), Distinction · 2026
       </div>
       <p style={{
         fontFamily: 'var(--font-jetbrains), monospace',
         fontSize: '12px', lineHeight: 1.8,
         color: '#6E8388', margin: '0 0 16px', maxWidth: '52ch',
       }}>
-        Graduated and building. Shipping personal projects, competing in hackathons, and earning certifications — while looking for a team worth joining. Open to full-stack, data, or AI engineering roles in Singapore.
+        Shipped projects. Won hackathons. Earned certifications. Now looking for a team building something worth caring about — in full-stack, data, or AI engineering.
       </p>
       <div>
         {['Full Stack', 'Data Engineering', 'AI / ML', 'React', 'Python', 'Next.js'].map(t => (
