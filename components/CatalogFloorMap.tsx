@@ -179,10 +179,15 @@ export default function CatalogFloorMap() {
           <div style={{ fontFamily: 'var(--font-jetbrains), monospace' }}>
             <div style={{
               fontSize: '9px', letterSpacing: '0.26em', textTransform: 'uppercase',
-              color: '#8A8E7B', marginBottom: '16px',
+              color: '#8A8E7B', marginBottom: '10px',
             }}>
               Museum of Personal Practice · NPSM · 2026
             </div>
+            <div style={{
+              fontFamily: 'var(--font-jetbrains), monospace',
+              fontSize: '13px', letterSpacing: '0.22em', textTransform: 'uppercase',
+              color: '#8A8E7B', marginBottom: '16px',
+            }}>Nan Phyu Sin Maung</div>
             <h2 style={{
               fontFamily: 'var(--font-playfair), serif', fontWeight: 400,
               fontSize: 'clamp(40px, 5.5vw, 72px)', lineHeight: 0.95,

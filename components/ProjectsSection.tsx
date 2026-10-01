@@ -204,9 +204,9 @@ export default function ProjectsSection() {
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth
-      if (w < 600) setWidth(Math.min(w - 48, 340))
-      else if (w < 900) setWidth(420)
-      else setWidth(520)
+      if (w < 600) setWidth(Math.min(w - 48, 280))
+      else if (w < 900) setWidth(340)
+      else setWidth(420)
     }
     update()
     window.addEventListener('resize', update)
@@ -250,15 +250,22 @@ export default function ProjectsSection() {
           display: 'grid', gridTemplateColumns: '1fr auto',
           alignItems: 'end', gap: '32px', marginBottom: '56px',
         }}>
-          <h1 style={{
-            fontFamily: 'var(--font-playfair), serif',
-            fontWeight: 400,
-            fontSize: 'clamp(48px, 7vw, 88px)',
-            lineHeight: 0.9,
-            letterSpacing: '-0.02em',
-            margin: 0,
-            color: '#14170F',
-          }}>Projects</h1>
+          <div>
+            <div style={{
+              fontFamily: 'var(--font-jetbrains), monospace',
+              fontSize: '13px', letterSpacing: '0.22em', textTransform: 'uppercase',
+              color: '#8A8E7B', marginBottom: '14px',
+            }}>Nan Phyu Sin Maung</div>
+            <h1 style={{
+              fontFamily: 'var(--font-playfair), serif',
+              fontWeight: 400,
+              fontSize: 'clamp(48px, 7vw, 88px)',
+              lineHeight: 0.9,
+              letterSpacing: '-0.02em',
+              margin: 0,
+              color: '#14170F',
+            }}>Projects</h1>
+          </div>
 
           <div style={{
             display: 'flex', flexDirection: 'column', alignItems: 'flex-end',
@@ -321,44 +328,44 @@ export default function ProjectsSection() {
 
           {/* ── Project detail panel ── */}
           <div style={{
-            marginTop: '48px', width: '100%', maxWidth: '680px',
+            marginTop: '32px', width: '100%', maxWidth: '520px',
             borderLeft: '3px solid #B4E650',
-            paddingLeft: '28px',
+            paddingLeft: '20px',
           }}>
             {/* meta row */}
             <div style={{
-              display: 'flex', alignItems: 'center', gap: '24px',
-              fontSize: '10px', letterSpacing: '0.2em',
+              display: 'flex', alignItems: 'center', gap: '18px',
+              fontSize: '9px', letterSpacing: '0.2em',
               textTransform: 'uppercase', color: '#8A8E7B',
-              marginBottom: '16px',
+              marginBottom: '12px',
               fontFamily: 'var(--font-jetbrains), monospace',
             }}>
               <span>{currentProject.role}</span>
-              <span style={{ width: '20px', height: '1px', background: 'rgba(30,59,69,0.3)', flexShrink: 0 }} />
+              <span style={{ width: '16px', height: '1px', background: 'rgba(30,59,69,0.3)', flexShrink: 0 }} />
               <span>{currentProject.year}</span>
             </div>
 
             {/* description */}
             <p style={{
               fontFamily: 'var(--font-playfair), serif',
-              fontSize: 'clamp(18px, 2vw, 22px)',
+              fontSize: 'clamp(14px, 1.4vw, 17px)',
               lineHeight: 1.6,
               color: '#2E4A44',
-              margin: '0 0 24px',
+              margin: '0 0 16px',
             }}>
               {currentProject.desc}
             </p>
 
             {/* stack tags */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '24px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '16px' }}>
               {currentProject.stack.map(tag => (
                 <span
                   key={tag}
                   style={{
                     fontFamily: 'var(--font-jetbrains), monospace',
-                    fontSize: '9px', letterSpacing: '0.18em',
+                    fontSize: '8px', letterSpacing: '0.18em',
                     textTransform: 'uppercase',
-                    padding: '7px 14px',
+                    padding: '5px 10px',
                     border: '1px solid rgba(30,59,69,0.28)',
                     color: '#5A6B66',
                   }}
@@ -374,11 +381,11 @@ export default function ProjectsSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '10px',
+                    display: 'inline-flex', alignItems: 'center', gap: '8px',
                     fontFamily: 'var(--font-jetbrains), monospace',
-                    fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase',
+                    fontSize: '9px', letterSpacing: '0.18em', textTransform: 'uppercase',
                     color: '#F4EFE4', background: '#1E3B45',
-                    padding: '13px 24px', textDecoration: 'none',
+                    padding: '10px 18px', textDecoration: 'none',
                     transition: 'background 0.2s, color 0.2s',
                   }}
                   onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#162D36'; (e.currentTarget as HTMLAnchorElement).style.color = '#B4E650' }}
@@ -393,12 +400,12 @@ export default function ProjectsSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '10px',
+                    display: 'inline-flex', alignItems: 'center', gap: '8px',
                     fontFamily: 'var(--font-jetbrains), monospace',
-                    fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase',
+                    fontSize: '9px', letterSpacing: '0.18em', textTransform: 'uppercase',
                     color: '#1E3B45',
                     border: '1px solid rgba(30,59,69,0.28)',
-                    padding: '13px 24px', textDecoration: 'none',
+                    padding: '10px 18px', textDecoration: 'none',
                     transition: 'border-color 0.2s, color 0.2s',
                   }}
                   onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#1E3B45'; (e.currentTarget as HTMLAnchorElement).style.color = '#1E3B45' }}

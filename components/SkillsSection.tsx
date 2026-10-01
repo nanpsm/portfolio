@@ -39,6 +39,11 @@ export default function SkillsSection() {
 
         {/* ── Title row ── */}
         <div style={{ marginBottom: '48px' }}>
+          <div style={{
+            fontFamily: 'var(--font-jetbrains), monospace',
+            fontSize: '13px', letterSpacing: '0.22em', textTransform: 'uppercase',
+            color: '#8A8E7B', marginBottom: '14px',
+          }}>Nan Phyu Sin Maung</div>
           <h1 style={{
             fontFamily: 'var(--font-playfair), serif',
             fontWeight: 400,
@@ -49,19 +54,6 @@ export default function SkillsSection() {
             color: '#14170F',
           }}>Skills</h1>
 
-          <p style={{
-            fontFamily: 'var(--font-playfair), serif',
-            fontStyle: 'italic',
-            fontSize: '17px',
-            lineHeight: 1.65,
-            color: '#4A4540',
-            margin: 0,
-            borderLeft: '3px solid #B4E650',
-            paddingLeft: '18px',
-            maxWidth: '44ch',
-          }}>
-            A physical catalogue of methods, materials, and tools accumulated over five years of practice.
-          </p>
         </div>
 
         {/* ── Book ── */}

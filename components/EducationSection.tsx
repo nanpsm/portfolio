@@ -229,6 +229,9 @@ export default function EducationSection() {
 
         {/* Timeline */}
         <Timeline data={data} />
+
+        {/* Bottom divider */}
+        <div style={{ borderTop: '1px solid rgba(20,23,15,0.1)', margin: '0' }} />
       </div>
     </section>
   )

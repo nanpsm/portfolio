@@ -1,6 +1,6 @@
 'use client'
 
-import React, { forwardRef, useRef } from 'react'
+import React, { forwardRef } from 'react'
 import HTMLFlipBook from 'react-pageflip'
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -131,18 +131,12 @@ const PAGE_H = 500
 
 // ── Main export ────────────────────────────────────────────────────────────
 export default function SkillsBook() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const book = useRef<any>(null)
-
-  const prev = () => book.current?.pageFlip?.().flipPrev()
-  const next = () => book.current?.pageFlip?.().flipNext()
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0' }}>
       {/* Book */}
       <div style={{ display: 'flex', justifyContent: 'center', padding: '48px 0 36px' }}>
         <HTMLFlipBook
-          ref={book}
+          ref={null}
           width={PAGE_W}
           height={PAGE_H}
           size="fixed"
@@ -264,43 +258,6 @@ export default function SkillsBook() {
         </HTMLFlipBook>
       </div>
 
-      {/* Navigation bar — matching Projects section style */}
-      <div style={{
-        display: 'flex', alignItems: 'center',
-        border: '1px solid rgba(30,59,69,0.22)',
-        width: 'fit-content',
-        fontFamily: 'var(--font-jetbrains), monospace',
-      }}>
-        <button
-          onClick={prev}
-          style={{
-            background: 'none', border: 'none', borderRight: '1px solid rgba(30,59,69,0.22)',
-            cursor: 'pointer', padding: '14px 28px',
-            fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase',
-            color: '#14170F', fontFamily: 'inherit',
-          }}
-        >
-          ← Prev
-        </button>
-        <div style={{
-          padding: '14px 28px',
-          fontSize: '10px', letterSpacing: '0.18em',
-          textTransform: 'uppercase', color: '#8A8E7B',
-        }}>
-          Flip to explore
-        </div>
-        <button
-          onClick={next}
-          style={{
-            background: 'none', border: 'none', borderLeft: '1px solid rgba(30,59,69,0.22)',
-            cursor: 'pointer', padding: '14px 28px',
-            fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase',
-            color: '#14170F', fontFamily: 'inherit',
-          }}
-        >
-          Next →
-        </button>
-      </div>
     </div>
   )
 }

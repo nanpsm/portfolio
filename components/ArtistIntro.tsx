@@ -119,7 +119,7 @@ export default function ArtistIntro() {
           {/* Subtitle */}
           <p style={{
             fontFamily: 'var(--font-mono), monospace',
-            fontSize: '9px',
+            fontSize: '15px',
             letterSpacing: '0.2em',
             color: 'rgba(244,239,228,0.62)',
             textTransform: 'uppercase',
