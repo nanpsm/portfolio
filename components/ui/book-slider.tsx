@@ -66,61 +66,62 @@ const SkillPage = forwardRef<HTMLDivElement, SkillPageProps>(
   }
 )
 
-// ── Skill data ─────────────────────────────────────────────────────────────
+// ── Skill data (sourced from resume) ──────────────────────────────────────
 const pages: SkillPageProps[] = [
   {
-    panel: 'I', title: 'Front of House', subtitle: 'Frontend Engineering', since: '2020 — present',
+    panel: 'I', title: 'Front of House', subtitle: 'Frontend Engineering', since: '2023 — present',
     skills: [
       { name: 'React',        level: 'Expert' },
+      { name: 'Next.js',      level: 'Expert' },
       { name: 'TypeScript',   level: 'Expert' },
-      { name: 'Next.js',      level: 'Advanced' },
       { name: 'Tailwind CSS', level: 'Advanced' },
-      { name: 'HTML / CSS',   level: 'Expert' },
-      { name: 'D3.js',        level: 'Intermediate' },
-      { name: 'Figma',        level: 'Advanced' },
+      { name: 'REST APIs',    level: 'Advanced' },
+      { name: 'WebSocket',    level: 'Advanced' },
+      { name: 'Prisma',       level: 'Intermediate' },
     ],
   },
   {
-    panel: 'II', title: 'Engineering', subtitle: 'Backend & Systems', since: '2021 — present',
+    panel: 'II', title: 'Engineering', subtitle: 'Backend & Systems', since: '2024 — present',
     skills: [
       { name: 'Python',      level: 'Expert' },
+      { name: 'JavaScript',  level: 'Advanced' },
+      { name: 'Java',        level: 'Advanced' },
       { name: 'Node.js',     level: 'Advanced' },
-      { name: 'FastAPI',     level: 'Advanced' },
-      { name: 'PostgreSQL',  level: 'Advanced' },
-      { name: 'REST APIs',   level: 'Expert' },
-      { name: 'GraphQL',     level: 'Intermediate' },
+      { name: 'SQL',         level: 'Advanced' },
+      { name: 'C++',         level: 'Intermediate' },
     ],
   },
   {
-    panel: 'III', title: 'The Archive', subtitle: 'Data Engineering', since: '2022 — present',
+    panel: 'III', title: 'The Archive', subtitle: 'Data Engineering', since: '2024 — present',
     skills: [
-      { name: 'SQL',            level: 'Expert' },
-      { name: 'Apache Airflow', level: 'Advanced' },
-      { name: 'ETL Pipelines',  level: 'Advanced' },
-      { name: 'Pandas',         level: 'Expert' },
-      { name: 'Apache Spark',   level: 'Intermediate' },
-      { name: 'dbt',            level: 'Intermediate' },
+      { name: 'Apache Spark', level: 'Advanced' },
+      { name: 'PostgreSQL',   level: 'Advanced' },
+      { name: 'MySQL',        level: 'Advanced' },
+      { name: 'Pandas',       level: 'Advanced' },
+      { name: 'Hadoop',       level: 'Intermediate' },
+      { name: 'MongoDB',      level: 'Intermediate' },
+      { name: 'Matplotlib',   level: 'Intermediate' },
     ],
   },
   {
-    panel: 'IV', title: 'Applied Intelligence', subtitle: 'ML & AI', since: '2023 — present',
+    panel: 'IV', title: 'Applied Intelligence', subtitle: 'ML & AI', since: '2025 — present',
     skills: [
-      { name: 'PyTorch',          level: 'Advanced' },
-      { name: 'HuggingFace',      level: 'Advanced' },
-      { name: 'scikit-learn',     level: 'Expert' },
-      { name: 'NLP / Text ML',    level: 'Advanced' },
-      { name: 'LLM Integration',  level: 'Intermediate' },
+      { name: 'HuggingFace Transformers', level: 'Advanced' },
+      { name: 'OpenAI API',               level: 'Advanced' },
+      { name: 'Azure AI Foundry',         level: 'Advanced' },
+      { name: 'NLP & Fine-tuning',        level: 'Advanced' },
     ],
   },
   {
-    panel: 'V', title: 'The Studio', subtitle: 'Tools & Infrastructure', since: '2020 — present',
+    panel: 'V', title: 'The Studio', subtitle: 'Cloud & Tools', since: '2023 — present',
     skills: [
-      { name: 'Git / GitHub', level: 'Expert' },
-      { name: 'Docker',       level: 'Advanced' },
-      { name: 'AWS',          level: 'Intermediate' },
-      { name: 'Linux',        level: 'Advanced' },
-      { name: 'Storybook',    level: 'Intermediate' },
-      { name: 'Figma',        level: 'Advanced' },
+      { name: 'Git / GitHub',    level: 'Expert' },
+      { name: 'AWS',             level: 'Advanced' },
+      { name: 'Microsoft Azure', level: 'Advanced' },
+      { name: 'Supabase',        level: 'Advanced' },
+      { name: 'Vercel',          level: 'Advanced' },
+      { name: 'Playwright',      level: 'Advanced' },
+      { name: 'Vitest',          level: 'Intermediate' },
     ],
   },
 ]
@@ -211,7 +212,7 @@ export default function SkillsBook() {
                   { panel: 'II',  title: 'Engineering',          sub: 'Backend & Systems' },
                   { panel: 'III', title: 'The Archive',          sub: 'Data Engineering' },
                   { panel: 'IV',  title: 'Applied Intelligence', sub: 'ML & AI' },
-                  { panel: 'V',   title: 'The Studio',           sub: 'Tools & Infrastructure' },
+                  { panel: 'V',   title: 'The Studio',           sub: 'Cloud & Tools' },
                 ].map((item, i, arr) => (
                   <div key={item.panel} style={{
                     display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
