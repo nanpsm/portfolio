@@ -359,6 +359,15 @@ body {
   50% { opacity: 1; transform: scaleY(1.15); }
 }
 
+/* ===== SKILLS FLIPBOOK ===== */
+.page-face {
+  background: #F7F5EE;
+}
+
+.page-cover {
+  /* background set inline per cover design */
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 720px) {
   .floorplan {
