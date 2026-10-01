@@ -3,6 +3,7 @@ import ArtistIntro from '@/components/ArtistIntro'
 import CatalogFloorMap from '@/components/CatalogFloorMap'
 import ProjectsSection from '@/components/ProjectsSection'
 import SkillsSection from '@/components/SkillsSection'
+import EducationSection from '@/components/EducationSection'
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <CatalogFloorMap />
       <ProjectsSection />
       <SkillsSection />
+      <EducationSection />
     </>
   )
 }
