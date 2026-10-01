@@ -95,8 +95,8 @@ function NowCard() {
           color: '#1E3B45', background: 'rgba(180,230,80,0.22)',
           padding: '4px 12px',
         }}>
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#B4E650', display: 'inline-block', animation: 'pulse 2s infinite' }} />
-          Open to Opportunities
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#B4E650', display: 'inline-block' }} />
+          Available
         </span>
       </div>
       <h4 style={{
@@ -104,21 +104,21 @@ function NowCard() {
         fontWeight: 400, fontSize: '22px',
         color: '#14170F', margin: '0 0 4px',
       }}>
-        Seeking Full-Time Roles
+        Independent Software Engineer
       </h4>
       <div style={{
         fontFamily: 'var(--font-jetbrains), monospace',
         fontSize: '11px', letterSpacing: '0.06em',
         color: '#1E3B45', marginBottom: '12px',
       }}>
-        Singapore · Remote-friendly
+        Self-directed · Singapore · 2026 – Present
       </div>
       <p style={{
         fontFamily: 'var(--font-jetbrains), monospace',
         fontSize: '12px', lineHeight: 1.8,
         color: '#6E8388', margin: '0 0 16px', maxWidth: '52ch',
       }}>
-        Graduating 2026. Looking for roles in full-stack engineering, data engineering, or AI/ML — ideally somewhere that builds things that matter.
+        Graduated and building. Shipping personal projects, competing in hackathons, and earning certifications — while looking for a team worth joining. Open to full-stack, data, or AI engineering roles in Singapore.
       </p>
       <div>
         {['Full Stack', 'Data Engineering', 'AI / ML', 'React', 'Python', 'Next.js'].map(t => (
@@ -135,41 +135,41 @@ const data = [
     content: <NowCard />,
   },
   {
-    title: '2022 – 2026',
+    title: '2024 – 2026',
     content: (
       <EntryCard
-        degree="Bachelor of Science in Computer Science"
-        institution="Singapore Institute of Technology"
+        degree="Bachelor of Computer Science (Big Data), Distinction"
+        institution="University of Wollongong (SIM)"
         location="Singapore"
-        years="2022 — 2026"
-        description="Focusing on software engineering, data engineering, and AI/ML systems. Thesis work on natural language processing and recommendation systems."
-        tags={['Software Engineering', 'Data Engineering', 'AI / ML', 'Full Stack', 'Databases']}
+        years="Oct 2024 — Sep 2026"
+        description="Specialised in Big Data and AI systems. Led hackathon teams to two first-place wins. Served as General Subcommittee Member of the SIM IT Club and received the Impetus Award at SIM Student Leaders Awards 2026."
+        tags={['Big Data', 'AI / ML', 'Full Stack', 'Hackathons', 'Leadership']}
       />
     ),
   },
   {
-    title: '2020 – 2022',
+    title: '2023 – 2024',
     content: (
       <EntryCard
         degree="Diploma in Information Technology"
-        institution="Singapore Polytechnic"
+        institution="Singapore Institute of Management"
         location="Singapore"
-        years="2020 — 2022"
-        description="Core coursework in web development, network fundamentals, and object-oriented programming. Graduated with distinction."
-        tags={['Web Development', 'Java', 'Networking', 'OOP', 'Databases']}
+        years="Oct 2023 — Sep 2024"
+        description="Graduated with a CGPA of 3.94 / 4.00. Awarded the Mapletree Bronze Award for academic excellence — the first formal credential that confirmed engineering was the right path."
+        tags={['CGPA 3.94 / 4.00', 'Mapletree Bronze Award', 'Web Dev', 'OOP', 'Databases']}
       />
     ),
   },
   {
-    title: '2018 – 2020',
+    title: '2022',
     content: (
       <EntryCard
-        degree="GCE O-Level / Pre-Polytechnic"
-        institution="Secondary School"
-        location="Singapore"
-        years="2018 — 2020"
-        description="Completed secondary education with strong results in Mathematics and Sciences. First encounter with programming through school electives sparked the path into tech."
-        tags={['Mathematics', 'Sciences', 'First code', 'Singapore']}
+        degree="General Educational Development (GED)"
+        institution="International Examination"
+        location="Yangon, Myanmar"
+        years="2022"
+        description="Earned the internationally recognised GED credential in Myanmar — the qualification that made the move to Singapore possible. A self-directed step taken without a clear roadmap, and the one that started everything."
+        tags={['International Credential', 'Self-directed', 'Myanmar', 'Foundation']}
       />
     ),
   },
