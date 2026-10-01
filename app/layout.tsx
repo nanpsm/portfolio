@@ -25,7 +25,7 @@ const playfair = Playfair_Display({
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  weight: '100 800',
+  weight: 'variable',
   variable: '--font-jetbrains',
 })
 
