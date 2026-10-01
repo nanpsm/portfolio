@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 const ROOMS = [
   { name: 'Artist Intro', room: 'Lobby',            id: 'intro' },
@@ -13,19 +13,48 @@ const ROOMS = [
   { name: 'Gift Shop',    room: 'Room VI · Contact', id: 'contact' },
 ]
 
-export default function MuseumNav() {
-  const [open, setOpen] = useState(false)
-  const [hoveredRoom, setHoveredRoom] = useState<string | null>(null)
+const MARGIN = 32
+const BADGE = 76
 
+type Corner = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+
+function toCornerStyle(corner: Corner): React.CSSProperties {
+  switch (corner) {
+    case 'top-left':    return { top: MARGIN,    left: MARGIN,  bottom: 'auto', right: 'auto' }
+    case 'top-right':   return { top: MARGIN,    right: MARGIN, bottom: 'auto', left: 'auto' }
+    case 'bottom-left': return { bottom: MARGIN, left: MARGIN,  top: 'auto',    right: 'auto' }
+    case 'bottom-right':return { bottom: MARGIN, right: MARGIN, top: 'auto',    left: 'auto' }
+  }
+}
+
+function nearestCorner(x: number, y: number): Corner {
+  const h = y < window.innerHeight / 2 ? 'top' : 'bottom'
+  const v = x < window.innerWidth  / 2 ? 'left' : 'right'
+  return `${h}-${v}` as Corner
+}
+
+export default function MuseumNav() {
+  const [open, setOpen]             = useState(false)
+  const [hoveredRoom, setHoveredRoom] = useState<string | null>(null)
+  const [corner, setCorner]         = useState<Corner>('bottom-right')
+  const [dragging, setDragging]     = useState(false)
+  const [dragPos, setDragPos]       = useState<{ x: number; y: number } | null>(null)
+
+  // Restore saved corner
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
+    try {
+      const saved = localStorage.getItem('museum-nav-corner') as Corner | null
+      if (saved) setCorner(saved)
+    } catch {}
+  }, [])
+
+  // Body scroll lock
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [open])
 
+  // Escape key
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
     window.addEventListener('keydown', onKey)
@@ -40,6 +69,61 @@ export default function MuseumNav() {
     }, 300)
   }
 
+  // ── Drag / tap handlers ────────────────────────────────────────────────────
+  // wasDragging stays true from mouseup until after click fires (setTimeout 0)
+  // so onClick can guard against accidental panel open on drag release.
+  const wasDragging = useRef(false)
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    if (open) return
+    const startX = e.clientX
+    const startY = e.clientY
+    let moved = false
+
+    const onMove = (ev: MouseEvent) => {
+      if (!moved && Math.hypot(ev.clientX - startX, ev.clientY - startY) < 8) return
+      moved = true
+      wasDragging.current = true
+      setDragging(true)
+      setDragPos({ x: ev.clientX - BADGE / 2, y: ev.clientY - BADGE / 2 })
+    }
+
+    const onUp = (ev: MouseEvent) => {
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseup', onUp)
+
+      if (moved) {
+        setDragging(false)
+        setDragPos(null)
+        const next = nearestCorner(ev.clientX, ev.clientY)
+        setCorner(next)
+        try { localStorage.setItem('museum-nav-corner', next) } catch {}
+        // Reset flag in the next task — after the synchronous click event fires
+        setTimeout(() => { wasDragging.current = false }, 0)
+      } else {
+        wasDragging.current = false
+      }
+    }
+
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup', onUp)
+  }, [open])
+
+  const handleClick = useCallback(() => {
+    if (wasDragging.current) return
+    setOpen(o => !o)
+  }, [])
+
+  // ── Derived values ─────────────────────────────────────────────────────────
+  const panelFromLeft = corner.includes('left')
+  const panelTranslate = panelFromLeft
+    ? (open ? 'translateX(0)' : 'translateX(-100%)')
+    : (open ? 'translateX(0)' : 'translateX(100%)')
+
+  const badgeStyle: React.CSSProperties = dragging && dragPos
+    ? { position: 'fixed', top: dragPos.y, left: dragPos.x, zIndex: 100, cursor: 'grabbing' }
+    : { position: 'fixed', ...toCornerStyle(corner), zIndex: 100, transition: 'top 0.35s cubic-bezier(0.34,1.56,0.64,1), bottom 0.35s cubic-bezier(0.34,1.56,0.64,1), left 0.35s cubic-bezier(0.34,1.56,0.64,1), right 0.35s cubic-bezier(0.34,1.56,0.64,1)' }
+
   const mapRooms = [
     { id: 'projects',     label: 'ROOM I',   name: 'Projects',     x: 20,  y: 10,  w: 118, h: 64 },
     { id: 'skills',       label: 'ROOM II',  name: 'Skills',       x: 20,  y: 74,  w: 118, h: 64 },
@@ -52,32 +136,36 @@ export default function MuseumNav() {
   return (
     <>
       {/* ── Badge ── */}
-      <div style={{ position: 'fixed', bottom: '32px', right: '32px', zIndex: 100 }}>
-        {/* Pulse ring */}
-        {!open && (
+      <div style={badgeStyle}>
+        {!open && !dragging && (
           <div style={{
-            position: 'absolute', inset: 0,
-            borderRadius: '50%',
+            position: 'absolute', inset: 0, borderRadius: '50%',
             border: '1.5px solid rgba(30,59,69,0.4)',
             animation: 'museumPulse 2.4s ease-in-out infinite',
             pointerEvents: 'none',
           }} />
         )}
         <button
-          onClick={() => setOpen(o => !o)}
+          onMouseDown={onMouseDown}
+          onClick={handleClick}
           style={{
-            width: '76px', height: '76px',
+            width: `${BADGE}px`, height: `${BADGE}px`,
             borderRadius: '50%',
             background: open ? '#162D36' : '#1E3B45',
             border: 'none',
-            cursor: 'pointer',
-            boxShadow: '0 8px 24px rgba(20,23,15,0.28)',
+            cursor: dragging ? 'grabbing' : 'grab',
+            boxShadow: dragging
+              ? '0 16px 40px rgba(20,23,15,0.4)'
+              : '0 8px 24px rgba(20,23,15,0.28)',
             display: 'flex', flexDirection: 'column',
             alignItems: 'center', justifyContent: 'center', gap: '5px',
-            transition: 'transform 0.2s, background 0.2s',
+            transition: 'transform 0.2s, background 0.2s, box-shadow 0.2s',
+            transform: dragging ? 'scale(1.1)' : 'scale(1)',
+            userSelect: 'none',
+            touchAction: 'none',
           }}
-          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.08)'; (e.currentTarget as HTMLButtonElement).style.background = '#162D36' }}
-          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)'; (e.currentTarget as HTMLButtonElement).style.background = open ? '#162D36' : '#1E3B45' }}
+          onMouseEnter={e => { if (!dragging) { (e.currentTarget as HTMLButtonElement).style.background = '#162D36' } }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = open ? '#162D36' : '#1E3B45' }}
         >
           <svg width="32" height="24" viewBox="0 0 24 18" fill="none">
             <rect x="1" y="1" width="9" height="7" stroke="#B4E650" strokeWidth="1.2"/>
@@ -87,7 +175,7 @@ export default function MuseumNav() {
             <line x1="10" y1="4.5" x2="14" y2="4.5" stroke="rgba(180,230,80,.35)" strokeWidth="1"/>
             <line x1="10" y1="13.5" x2="14" y2="13.5" stroke="rgba(180,230,80,.35)" strokeWidth="1"/>
           </svg>
-          <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '7.5px', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(180,230,80,0.75)' }}>
+          <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '7.5px', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(180,230,80,0.75)', pointerEvents: 'none' }}>
             Guide
           </span>
         </button>
@@ -109,11 +197,12 @@ export default function MuseumNav() {
       {/* ── Panel ── */}
       <div
         style={{
-          position: 'fixed', top: 0, right: 0, bottom: 0,
+          position: 'fixed', top: 0, bottom: 0,
+          ...(panelFromLeft ? { left: 0, right: 'auto' } : { right: 0, left: 'auto' }),
           width: '440px',
           zIndex: 300,
           background: 'linear-gradient(160deg, #1E3B45, #122730)',
-          transform: open ? 'translateX(0)' : 'translateX(100%)',
+          transform: panelTranslate,
           transition: 'transform 0.5s cubic-bezier(0.77, 0, 0.18, 1)',
           overflow: 'hidden',
           display: 'flex',
@@ -132,30 +221,19 @@ export default function MuseumNav() {
         {/* ── Header ── */}
         <div style={{ padding: '20px 28px 0', position: 'relative', zIndex: 1, flexShrink: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
-            <span style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
-              fontSize: '8px', letterSpacing: '0.28em', textTransform: 'uppercase',
-              color: 'rgba(180,230,80,0.6)',
-            }}>Museum Guide</span>
+            <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '8px', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(180,230,80,0.6)' }}>
+              Museum Guide
+            </span>
             <button
               onClick={() => setOpen(false)}
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: '18px', color: 'rgba(244,239,228,0.4)',
-                lineHeight: 1, padding: '0 0 0 12px',
-                transition: 'color 0.18s',
-                fontFamily: 'inherit',
-              }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', color: 'rgba(244,239,228,0.4)', lineHeight: 1, padding: '0 0 0 12px', transition: 'color 0.18s', fontFamily: 'inherit' }}
               onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#F4EFE4' }}
               onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(244,239,228,0.4)' }}
             >×</button>
           </div>
-          <h2 style={{
-            fontFamily: 'var(--font-playfair), serif',
-            fontWeight: 400, fontStyle: 'italic',
-            fontSize: '20px', color: '#F4EFE4',
-            margin: '0 0 14px',
-          }}>Where would you like to go?</h2>
+          <h2 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 400, fontStyle: 'italic', fontSize: '20px', color: '#F4EFE4', margin: '0 0 14px' }}>
+            Where would you like to go?
+          </h2>
           <div style={{ height: '1px', background: 'rgba(180,230,80,0.14)' }} />
         </div>
 
@@ -167,12 +245,8 @@ export default function MuseumNav() {
                 <line x1="0" y1="0" x2="0" y2="8" stroke="rgba(180,230,80,0.08)" strokeWidth="0.8"/>
               </pattern>
             </defs>
-
-            {/* Grand Hall */}
             <rect x="138" y="10" width="124" height="192" fill="url(#nav-hatch)" stroke="rgba(180,230,80,0.2)" strokeWidth="0.8"/>
             <text x="200" y="106" fontFamily="monospace" fontSize="7" letterSpacing="3" fill="rgba(180,230,80,0.42)" textAnchor="middle" dominantBaseline="middle" transform="rotate(-90,200,106)">GRAND HALL</text>
-
-            {/* Room zones */}
             {mapRooms.map(r => (
               <g key={r.id}>
                 <rect
@@ -188,7 +262,6 @@ export default function MuseumNav() {
                 <text x={r.x + 8} y={r.y + 34} fontFamily="Georgia,serif" fontSize="11" fontStyle="italic" fill="rgba(244,239,228,0.8)" style={{ pointerEvents: 'none' }}>{r.name}</text>
               </g>
             ))}
-
           </svg>
         </div>
 
@@ -212,12 +285,8 @@ export default function MuseumNav() {
               onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#B4E650' }}
               onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(244,239,228,0.7)' }}
             >
-              <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-                {r.name}
-              </span>
-              <span style={{ fontFamily: 'var(--font-playfair), serif', fontStyle: 'italic', fontSize: '11px', opacity: 0.5 }}>
-                {r.room}
-              </span>
+              <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase' }}>{r.name}</span>
+              <span style={{ fontFamily: 'var(--font-playfair), serif', fontStyle: 'italic', fontSize: '11px', opacity: 0.5 }}>{r.room}</span>
             </button>
           ))}
         </div>
