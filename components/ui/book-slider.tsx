@@ -228,9 +228,6 @@ export default function SkillsBook() {
                   </div>
                 ))}
               </div>
-              <div style={{ fontSize: '8px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#B4E650', marginTop: '12px' }}>
-                NPSM · 2026 · 001
-              </div>
             </div>
           </div>
 

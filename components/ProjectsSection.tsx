@@ -219,7 +219,7 @@ export default function ProjectsSection() {
     <section
       id="projects"
       style={{
-        background: '#F3F4EA',
+        background: '#F5F8ED',
         color: '#14170F',
         fontFamily: 'var(--font-jetbrains), monospace',
         minHeight: '100vh',
