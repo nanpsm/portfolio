@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Cormorant_Garamond, Space_Mono, Playfair_Display, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
+import MuseumNav from '@/components/MuseumNav'
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -36,7 +37,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${cormorant.variable} ${spaceMono.variable} ${playfair.variable} ${jetbrainsMono.variable}`}>{children}</body>
+      <body className={`${cormorant.variable} ${spaceMono.variable} ${playfair.variable} ${jetbrainsMono.variable}`}>
+        {children}
+        <MuseumNav />
+      </body>
     </html>
   )
 }

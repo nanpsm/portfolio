@@ -8,7 +8,7 @@ const CARD_PADDING_V = 32
 
 export default function ArtistIntro() {
   return (
-    <section style={{ background: '#F5F8ED', padding: `0 16px ${CARD_PADDING_V}px` }}>
+    <section id="intro" style={{ background: '#F5F8ED', padding: `0 16px ${CARD_PADDING_V}px` }}>
       <style>{`
         .artist-tag {
           font-family: var(--font-mono), monospace;

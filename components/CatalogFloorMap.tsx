@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
+import { ContainerScroll } from '@/components/ui/container-scroll-animation'
 
 const ROOM_SECTIONS: Record<string, string> = {
   I:   'projects',
@@ -35,46 +36,16 @@ function FloorMapPage({ hovered, setHovered }: {
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
-      padding: '28px 44px 22px',
+      padding: '10px 16px 8px',
       fontFamily: 'var(--font-mono), monospace',
       color: '#14170F',
     }}>
 
-      {/* ── Header top row ── */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
-        <div>
-          <div style={{ fontSize: '8px', letterSpacing: '0.22em', color: '#8A8E7B', textTransform: 'uppercase', marginBottom: '6px' }}>
-            Museum of Personal Practice · NPSM · 2026
-          </div>
-          <h1 style={{
-            fontFamily: 'var(--font-display), serif', fontWeight: 400,
-            fontSize: 'clamp(28px, 3.8vw, 42px)', lineHeight: 1.0,
-            color: '#1E3B45', margin: '0 0 4px', letterSpacing: '-0.015em',
-          }}>Catalog</h1>
-          <p style={{ fontFamily: 'var(--font-display), serif', fontStyle: 'italic', fontSize: '14px', color: '#6E8388', margin: 0 }}>
-            A Portfolio in Six Rooms
-          </p>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px', paddingTop: '4px', flexShrink: 0 }}>
-          <div style={{
-            background: '#1E3B45', color: '#B4E650',
-            fontSize: '8.5px', letterSpacing: '0.16em', textTransform: 'uppercase',
-            padding: '4px 10px',
-          }}>Visitor's Guide</div>
-          <span style={{ fontSize: '8.5px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#8A8E7B' }}>
-            Admission free · Open all hours
-          </span>
-        </div>
-      </div>
-
-      {/* Rule */}
-      <div style={{ borderTop: '1px solid rgba(30,59,69,0.18)', marginBottom: '14px' }} />
-
       {/* ── Plan label ── */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
-        <span style={{ fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#1E3B45', fontWeight: 500, whiteSpace: 'nowrap' }}>Ground Floor · Plan</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+        <span style={{ fontSize: '9px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#1E3B45', fontWeight: 500, whiteSpace: 'nowrap' }}>Ground Floor · Plan</span>
         <div style={{ flex: 1, height: '1px', background: 'rgba(30,59,69,0.18)' }} />
-        <span style={{ fontSize: '9px', letterSpacing: '0.13em', color: '#9A9E8D', whiteSpace: 'nowrap' }}>Not to Scale · NPSM.GF.2026 ↑ N</span>
+        <span style={{ fontSize: '8px', letterSpacing: '0.13em', color: '#9A9E8D', whiteSpace: 'nowrap' }}>Not to Scale · NPSM.GF.2026 ↑ N</span>
       </div>
 
       {/* ── Floor map SVG ── */}
@@ -82,7 +53,7 @@ function FloorMapPage({ hovered, setHovered }: {
         flex: 1,
         border: '1px solid rgba(30,59,69,0.18)',
         background: '#F7F6F0',
-        padding: '16px',
+        padding: '8px',
         minHeight: 0,
         position: 'relative',
       }}>
@@ -171,26 +142,26 @@ function FloorMapPage({ hovered, setHovered }: {
       </div>
 
       {/* ── Footer legend ── */}
-      <div style={{ borderTop: '1px solid rgba(30,59,69,0.14)', marginTop: '12px', paddingTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', flexWrap: 'wrap' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '18px', fontFamily: 'var(--font-mono), monospace', fontSize: '8px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#8A8E7B' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div style={{ width: '11px', height: '11px', background: '#FAF8F2', border: '1px solid rgba(30,59,69,0.28)' }} />
+      <div style={{ borderTop: '1px solid rgba(30,59,69,0.14)', marginTop: '6px', paddingTop: '5px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', fontFamily: 'var(--font-mono), monospace', fontSize: '7px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#8A8E7B' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <div style={{ width: '9px', height: '9px', background: '#FAF8F2', border: '1px solid rgba(30,59,69,0.28)' }} />
             <span>Gallery</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div style={{ width: '11px', height: '11px', background: '#EEECEA', border: '1px solid rgba(30,59,69,0.2)' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <div style={{ width: '9px', height: '9px', background: '#EEECEA', border: '1px solid rgba(30,59,69,0.2)' }} />
             <span>Circulation</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#1E3B45' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#1E3B45' }} />
             <span>Column</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#B4E650' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#B4E650' }} />
             <span>You are here</span>
           </div>
         </div>
-        <span style={{ fontSize: '8px', letterSpacing: '0.16em', color: '#8A8E7B', textTransform: 'uppercase' }}>
+        <span style={{ fontSize: '7px', letterSpacing: '0.16em', color: '#8A8E7B', textTransform: 'uppercase' }}>
           npsm.studio · Singapore · 2026
         </span>
       </div>
@@ -198,66 +169,38 @@ function FloorMapPage({ hovered, setHovered }: {
   )
 }
 
-const START_SCALE = 0.28   // initial size of the catalog (0–1)
-const START_AT    = 0.0    // fraction of section scrolled before expanding begins (0 = immediately)
-const END_AT      = 0.5    // fraction of section scrolled when full screen is reached — stays full until scroll end
-const ORIGIN      = '50% 50%'
-
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * Math.max(0, Math.min(1, t))
-}
-
 export default function CatalogFloorMap() {
-  const containerRef = useRef<HTMLDivElement>(null)
   const [hovered, setHovered] = useState<string | null>(null)
-  const [scale,   setScale]   = useState(START_SCALE)
-  const [opacity, setOpacity] = useState(0)
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (!containerRef.current) return
-      const rect        = containerRef.current.getBoundingClientRect()
-      const totalScroll = containerRef.current.offsetHeight - window.innerHeight
-      const scrolled    = Math.max(0, -rect.top)
-      const progress    = Math.min(scrolled / totalScroll, 1)
-
-      const t = (progress - START_AT) / (END_AT - START_AT)
-      setScale(lerp(START_SCALE, 1, t))
-      setOpacity(Math.min(progress / 0.01, 1))
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   return (
-    <div
-        ref={containerRef}
-        style={{ height: '300vh', position: 'relative', background: '#F5F8ED' }}
-      >
-        <div style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          width: '100%',
-          overflow: 'hidden',
-          background: '#F5F8ED',
-        }}>
-          <div style={{
-            width: '100%',
-            height: '100%',
-            transform: `scale(${scale})`,
-            transformOrigin: ORIGIN,
-            opacity,
-            willChange: 'transform, opacity',
-          }}>
-            <FloorMapPage
-              hovered={hovered}
-              setHovered={setHovered}
-            />
+    <div id="floor-map" style={{ background: '#F5F8ED' }}>
+      <ContainerScroll
+        titleComponent={
+          <div style={{ fontFamily: 'var(--font-jetbrains), monospace' }}>
+            <div style={{
+              fontSize: '9px', letterSpacing: '0.26em', textTransform: 'uppercase',
+              color: '#8A8E7B', marginBottom: '16px',
+            }}>
+              Museum of Personal Practice · NPSM · 2026
+            </div>
+            <h2 style={{
+              fontFamily: 'var(--font-playfair), serif', fontWeight: 400,
+              fontSize: 'clamp(40px, 5.5vw, 72px)', lineHeight: 0.95,
+              color: '#1E3B45', margin: '0 0 14px', letterSpacing: '-0.02em',
+            }}>
+              Floor Map
+            </h2>
+            <p style={{
+              fontFamily: 'var(--font-playfair), serif', fontStyle: 'italic',
+              fontSize: '17px', color: '#6E8388', margin: 0,
+            }}>
+              A Portfolio in Six Rooms
+            </p>
           </div>
-        </div>
+        }
+      >
+        <FloorMapPage hovered={hovered} setHovered={setHovered} />
+      </ContainerScroll>
     </div>
   )
 }

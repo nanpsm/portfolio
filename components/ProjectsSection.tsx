@@ -13,31 +13,67 @@ const PROJECTS = [
     num: 'I', title: 'FilmTwin', role: 'Personal Project · ML', year: '2025',
     desc: 'Film recommendation engine that matches your taste profile against 323,733 MovieLens viewers using Apache Spark ALS, 19-dimensional genre embeddings, and pgvector HNSW search.',
     stack: ['PySpark', 'pgvector', 'Next.js', 'Supabase'],
+    github: 'https://github.com/nanpsm/video-recommender',
+    url: 'https://filmtwin.vercel.app/',
+    image: '',
   },
   {
     num: 'II', title: 'Tasking', role: 'Final Year Project', year: '2025',
     desc: 'Smart task allocation platform for SMEs — multi-role hierarchy, AI-assisted scheduling and job posting, Stripe subscriptions, and a full NFR test suite across 10 system modules.',
     stack: ['Next.js', 'Supabase', 'OpenAI', 'Stripe'],
+    github: 'https://github.com/ShuaiCheng-kk/fyp-tasking',
+    url: 'https://fyp-tasking.vercel.app/',
+    image: '',
   },
   {
     num: 'III', title: 'Emochi', role: 'Hackathon · 2 Awards', year: '2025',
     desc: 'AI emotion companion where 8 character agents — Cheer, Fear, Buzzy, and more — debate and support you through how you feel. Each character is a live Azure AI Foundry agent, not a scripted response. Built in 24 hours.',
     stack: ['Next.js', 'Azure AI', 'Prisma', 'Auth.js'],
+    github: 'https://github.com/nanpsm/emochi',
+    url: '',
+    image: '',
   },
   {
     num: 'IV', title: 'Crimson Midnight', role: 'ITCAMP · 1st Place', year: '2024',
     desc: 'AI-powered murder mystery where players interrogate suspects with real, open-ended questions — not scripted options. Won 1st place and the Community Award, voted by university students at the project fair.',
     stack: ['Next.js', 'JavaScript', 'CSS', 'AI NPC'],
+    github: 'https://github.com/moecrosoft/crimson_midnight',
+    url: 'https://crimsonmidnight.vercel.app/',
+    image: '',
   },
   {
     num: 'V', title: 'Oops Too Slow', role: 'Hackathon · 24 hrs', year: '2024',
     desc: 'Fast-paced reaction game where players respond to prompts via keyboard, mouse click, or hand gestures detected live by webcam. Solo and team modes with a shared Firebase leaderboard.',
     stack: ['React', 'MediaPipe', 'Firebase', 'Canvas API'],
+    github: 'https://github.com/nanpsm/oops-too-slow',
+    url: '',
+    image: '',
   },
 ]
 
 // ── Cube face cards ────────────────────────────────────────────────────────
-function DarkFace({ num, title, role, stack, year }: typeof PROJECTS[0]) {
+function DarkFace({ num, title, role, stack, year, image }: typeof PROJECTS[0]) {
+  if (image) {
+    return (
+      <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={image} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(18,39,48,0.92) 0%, rgba(18,39,48,0.2) 55%, transparent 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, padding: '28px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+          <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(180,230,80,0.7)', marginBottom: '8px' }}>
+            Room I · No. {String(ROMAN.indexOf(num) + 1).padStart(3, '0')}
+          </div>
+          <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(244,239,228,0.5)', marginBottom: '6px' }}>{role}</div>
+          <h2 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 400, fontSize: '36px', fontStyle: 'italic', lineHeight: 1.05, color: '#F4EFE4', margin: '0 0 16px' }}>{title}</h2>
+          <div style={{ borderTop: '1px solid rgba(244,239,228,0.2)', paddingTop: '12px', display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.14em', color: 'rgba(244,239,228,0.4)' }}>{stack.join(' · ')}</span>
+            <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.14em', color: '#B4E650' }}>{year}</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div style={{
       width: '100%', height: '100%', position: 'relative', overflow: 'hidden',
@@ -45,7 +81,6 @@ function DarkFace({ num, title, role, stack, year }: typeof PROJECTS[0]) {
         ? 'linear-gradient(140deg,#24454F 0%,#16303A 100%)'
         : 'linear-gradient(140deg,#1E3B45 0%,#122730 100%)',
     }}>
-      {/* faint watermark numeral */}
       <div style={{
         position: 'absolute', right: '-20px', bottom: '-40px',
         fontFamily: 'var(--font-playfair), serif',
@@ -54,104 +89,63 @@ function DarkFace({ num, title, role, stack, year }: typeof PROJECTS[0]) {
         pointerEvents: 'none', userSelect: 'none',
       }}>{num}</div>
 
-      <div style={{
-        padding: '32px 36px', height: '100%',
-        display: 'flex', flexDirection: 'column',
-        position: 'relative', zIndex: 1,
-      }}>
-        <div style={{
-          fontFamily: 'var(--font-jetbrains), monospace',
-          fontSize: '9px', letterSpacing: '0.28em', textTransform: 'uppercase',
-          color: 'rgba(180,230,80,0.7)',
-        }}>Room I · No. {String(ROMAN.indexOf(num) + 1).padStart(3, '0')}</div>
-
+      <div style={{ padding: '32px 36px', height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
+        <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(180,230,80,0.7)' }}>
+          Room I · No. {String(ROMAN.indexOf(num) + 1).padStart(3, '0')}
+        </div>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <div style={{
-            fontFamily: 'var(--font-jetbrains), monospace',
-            fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase',
-            color: 'rgba(244,239,228,0.45)', marginBottom: '10px',
-          }}>{role}</div>
-          <h2 style={{
-            fontFamily: 'var(--font-playfair), serif',
-            fontWeight: 400, fontSize: '42px', fontStyle: 'italic',
-            lineHeight: 1.05, color: '#F4EFE4', margin: 0,
-          }}>
+          <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(244,239,228,0.45)', marginBottom: '10px' }}>{role}</div>
+          <h2 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 400, fontSize: '42px', fontStyle: 'italic', lineHeight: 1.05, color: '#F4EFE4', margin: 0 }}>
             {title.includes(' ')
               ? title.split(' ').map((w, i) => <span key={i} style={{ display: 'block' }}>{w}</span>)
               : title}
           </h2>
         </div>
-
-        <div style={{
-          borderTop: '1px solid rgba(244,239,228,0.15)', paddingTop: '16px',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        }}>
-          <span style={{
-            fontFamily: 'var(--font-jetbrains), monospace',
-            fontSize: '9px', letterSpacing: '0.14em',
-            color: 'rgba(244,239,228,0.45)',
-          }}>{stack.join(' · ')}</span>
-          <span style={{
-            fontFamily: 'var(--font-jetbrains), monospace',
-            fontSize: '9px', letterSpacing: '0.14em', color: '#B4E650',
-          }}>{year}</span>
+        <div style={{ borderTop: '1px solid rgba(244,239,228,0.15)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.14em', color: 'rgba(244,239,228,0.45)' }}>{stack.join(' · ')}</span>
+          <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.14em', color: '#B4E650' }}>{year}</span>
         </div>
       </div>
     </div>
   )
 }
 
-function LightFace({ num, title, role, stack, year }: typeof PROJECTS[0]) {
-  return (
-    <div style={{
-      width: '100%', height: '100%', position: 'relative', overflow: 'hidden',
-      background: '#FAF8F2', border: '1px solid rgba(30,59,69,0.2)',
-    }}>
-      {/* faint watermark numeral */}
-      <div style={{
-        position: 'absolute', right: '-20px', bottom: '-40px',
-        fontFamily: 'var(--font-playfair), serif',
-        fontSize: '220px', lineHeight: 1,
-        color: 'rgba(30,59,69,0.04)',
-        pointerEvents: 'none', userSelect: 'none',
-      }}>{num}</div>
-
-      <div style={{
-        padding: '32px 36px', height: '100%',
-        display: 'flex', flexDirection: 'column',
-        position: 'relative', zIndex: 1,
-      }}>
-        <div style={{
-          fontFamily: 'var(--font-jetbrains), monospace',
-          fontSize: '9px', letterSpacing: '0.28em', textTransform: 'uppercase',
-          color: '#8A8E7B',
-        }}>Room I · No. {String(ROMAN.indexOf(num) + 1).padStart(3, '0')}</div>
-
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <div style={{
-            fontFamily: 'var(--font-jetbrains), monospace',
-            fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase',
-            color: '#8A8E7B', marginBottom: '10px',
-          }}>{role}</div>
-          <h2 style={{
-            fontFamily: 'var(--font-playfair), serif',
-            fontWeight: 400, fontSize: '42px', fontStyle: 'italic',
-            lineHeight: 1.05, color: '#1E3B45', margin: 0,
-          }}>{title}</h2>
+function LightFace({ num, title, role, stack, year, image }: typeof PROJECTS[0]) {
+  if (image) {
+    return (
+      <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={image} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(18,39,48,0.92) 0%, rgba(18,39,48,0.2) 55%, transparent 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, padding: '28px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+          <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(180,230,80,0.7)', marginBottom: '8px' }}>
+            Room I · No. {String(ROMAN.indexOf(num) + 1).padStart(3, '0')}
+          </div>
+          <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(244,239,228,0.5)', marginBottom: '6px' }}>{role}</div>
+          <h2 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 400, fontSize: '36px', fontStyle: 'italic', lineHeight: 1.05, color: '#F4EFE4', margin: '0 0 16px' }}>{title}</h2>
+          <div style={{ borderTop: '1px solid rgba(244,239,228,0.2)', paddingTop: '12px', display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.14em', color: 'rgba(244,239,228,0.4)' }}>{stack.join(' · ')}</span>
+            <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.14em', color: '#B4E650' }}>{year}</span>
+          </div>
         </div>
+      </div>
+    )
+  }
 
-        <div style={{
-          borderTop: '1px solid rgba(30,59,69,0.14)', paddingTop: '16px',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        }}>
-          <span style={{
-            fontFamily: 'var(--font-jetbrains), monospace',
-            fontSize: '9px', letterSpacing: '0.14em', color: '#6E8388',
-          }}>{stack.join(' · ')}</span>
-          <span style={{
-            fontFamily: 'var(--font-jetbrains), monospace',
-            fontSize: '9px', letterSpacing: '0.14em', color: '#1E3B45',
-          }}>{year}</span>
+  return (
+    <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', background: '#FAF8F2', border: '1px solid rgba(30,59,69,0.2)' }}>
+      <div style={{ position: 'absolute', right: '-20px', bottom: '-40px', fontFamily: 'var(--font-playfair), serif', fontSize: '220px', lineHeight: 1, color: 'rgba(30,59,69,0.04)', pointerEvents: 'none', userSelect: 'none' }}>{num}</div>
+      <div style={{ padding: '32px 36px', height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
+        <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.28em', textTransform: 'uppercase', color: '#8A8E7B' }}>
+          Room I · No. {String(ROMAN.indexOf(num) + 1).padStart(3, '0')}
+        </div>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8E7B', marginBottom: '10px' }}>{role}</div>
+          <h2 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 400, fontSize: '42px', fontStyle: 'italic', lineHeight: 1.05, color: '#1E3B45', margin: 0 }}>{title}</h2>
+        </div>
+        <div style={{ borderTop: '1px solid rgba(30,59,69,0.14)', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.14em', color: '#6E8388' }}>{stack.join(' · ')}</span>
+          <span style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '9px', letterSpacing: '0.14em', color: '#1E3B45' }}>{year}</span>
         </div>
       </div>
     </div>
@@ -356,7 +350,7 @@ export default function ProjectsSection() {
             </p>
 
             {/* stack tags */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '24px' }}>
               {currentProject.stack.map(tag => (
                 <span
                   key={tag}
@@ -370,6 +364,49 @@ export default function ProjectsSection() {
                   }}
                 >{tag}</span>
               ))}
+            </div>
+
+            {/* links */}
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              {currentProject.url && (
+                <a
+                  href={currentProject.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '10px',
+                    fontFamily: 'var(--font-jetbrains), monospace',
+                    fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase',
+                    color: '#F4EFE4', background: '#1E3B45',
+                    padding: '13px 24px', textDecoration: 'none',
+                    transition: 'background 0.2s, color 0.2s',
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#162D36'; (e.currentTarget as HTMLAnchorElement).style.color = '#B4E650' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#1E3B45'; (e.currentTarget as HTMLAnchorElement).style.color = '#F4EFE4' }}
+                >
+                  Live Site <span style={{ fontSize: '13px', lineHeight: 1 }}>↗</span>
+                </a>
+              )}
+              {currentProject.github && (
+                <a
+                  href={currentProject.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '10px',
+                    fontFamily: 'var(--font-jetbrains), monospace',
+                    fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase',
+                    color: '#1E3B45',
+                    border: '1px solid rgba(30,59,69,0.28)',
+                    padding: '13px 24px', textDecoration: 'none',
+                    transition: 'border-color 0.2s, color 0.2s',
+                  }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#1E3B45'; (e.currentTarget as HTMLAnchorElement).style.color = '#1E3B45' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(30,59,69,0.28)'; (e.currentTarget as HTMLAnchorElement).style.color = '#1E3B45' }}
+                >
+                  GitHub <span style={{ fontSize: '13px', lineHeight: 1 }}>↗</span>
+                </a>
+              )}
             </div>
           </div>
         </div>
