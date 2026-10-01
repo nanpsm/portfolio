@@ -80,7 +80,60 @@ function EntryCard({
   )
 }
 
+function NowCard() {
+  return (
+    <div style={{
+      borderLeft: '2px solid #B4E650',
+      paddingLeft: '24px',
+      marginBottom: '40px',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+        <span style={{
+          display: 'inline-flex', alignItems: 'center', gap: '7px',
+          fontFamily: 'var(--font-jetbrains), monospace',
+          fontSize: '9px', letterSpacing: '0.2em', textTransform: 'uppercase',
+          color: '#1E3B45', background: 'rgba(180,230,80,0.22)',
+          padding: '4px 12px',
+        }}>
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#B4E650', display: 'inline-block', animation: 'pulse 2s infinite' }} />
+          Open to Opportunities
+        </span>
+      </div>
+      <h4 style={{
+        fontFamily: 'var(--font-playfair), serif',
+        fontWeight: 400, fontSize: '22px',
+        color: '#14170F', margin: '0 0 4px',
+      }}>
+        Seeking Full-Time Roles
+      </h4>
+      <div style={{
+        fontFamily: 'var(--font-jetbrains), monospace',
+        fontSize: '11px', letterSpacing: '0.06em',
+        color: '#1E3B45', marginBottom: '12px',
+      }}>
+        Singapore · Remote-friendly
+      </div>
+      <p style={{
+        fontFamily: 'var(--font-jetbrains), monospace',
+        fontSize: '12px', lineHeight: 1.8,
+        color: '#6E8388', margin: '0 0 16px', maxWidth: '52ch',
+      }}>
+        Graduating 2026. Looking for roles in full-stack engineering, data engineering, or AI/ML — ideally somewhere that builds things that matter.
+      </p>
+      <div>
+        {['Full Stack', 'Data Engineering', 'AI / ML', 'React', 'Python', 'Next.js'].map(t => (
+          <span key={t} style={TAG_STYLE}>{t}</span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 const data = [
+  {
+    title: 'Now',
+    content: <NowCard />,
+  },
   {
     title: '2022 – 2026',
     content: (
@@ -104,6 +157,19 @@ const data = [
         years="2020 — 2022"
         description="Core coursework in web development, network fundamentals, and object-oriented programming. Graduated with distinction."
         tags={['Web Development', 'Java', 'Networking', 'OOP', 'Databases']}
+      />
+    ),
+  },
+  {
+    title: '2018 – 2020',
+    content: (
+      <EntryCard
+        degree="GCE O-Level / Pre-Polytechnic"
+        institution="Secondary School"
+        location="Singapore"
+        years="2018 — 2020"
+        description="Completed secondary education with strong results in Mathematics and Sciences. First encounter with programming through school electives sparked the path into tech."
+        tags={['Mathematics', 'Sciences', 'First code', 'Singapore']}
       />
     ),
   },
