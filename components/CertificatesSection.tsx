@@ -26,20 +26,20 @@ function StampSVG({ uid, title, subtitle, recipient, date }: {
           <path id={tid} d="M41 96 A55 55 0 0 1 151 96" fill="none" />
           <path id={bid} d="M36 96 A60 60 0 0 1 156 96" fill="none" transform="rotate(180 96 96)" />
         </defs>
-        <path d={path} fill="#F4EFE4" stroke="rgba(200,169,110,.4)" strokeWidth="0.5" />
-        <circle cx="96" cy="96" r="78" fill="#ECE8DB" stroke="rgba(200,169,110,.35)" strokeWidth="0.5" />
-        <circle cx="96" cy="96" r="70" fill="none" stroke="rgba(30,59,69,.1)" strokeWidth="0.5" />
+        <path d={path} fill="#3D5A7A" stroke="#C8A96E" strokeWidth="0.8" />
+        <circle cx="96" cy="96" r="78" fill="#3D5A7A" stroke="#C8A96E" strokeWidth="0.7" />
+        <circle cx="96" cy="96" r="70" fill="none" stroke="rgba(200,169,110,.4)" strokeWidth="0.5" />
         <text fontSize="10" fontFamily="JetBrains Mono, monospace" letterSpacing="0.06em">
-          <textPath href={`#${tid}`} startOffset="50%" textAnchor="middle" fill="#1E3B45">{title}</textPath>
+          <textPath href={`#${tid}`} startOffset="50%" textAnchor="middle" fill="#C8A96E">{title}</textPath>
         </text>
         <text fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.07em">
-          <textPath href={`#${bid}`} startOffset="50%" textAnchor="middle" fill="rgba(30,59,69,.5)">{subtitle}</textPath>
+          <textPath href={`#${bid}`} startOffset="50%" textAnchor="middle" fill="rgba(200,169,110,.7)">{subtitle}</textPath>
         </text>
       </svg>
       <div style={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
         <div style={{ color: '#C8A96E', fontSize: 24, lineHeight: '1', marginBottom: 6 }}>★</div>
-        <div style={{ fontSize: 9.5, fontFamily: 'var(--font-jetbrains), monospace', letterSpacing: '0.1em', color: '#1E3B45', marginTop: 4 }}>{recipient}</div>
-        <div style={{ fontSize: 8.5, fontStyle: 'italic', color: 'rgba(30,59,69,.48)', marginTop: 3, fontFamily: 'Georgia, serif' }}>{date}</div>
+        <div style={{ fontSize: 9.5, fontFamily: 'var(--font-jetbrains), monospace', letterSpacing: '0.1em', color: '#C8A96E', marginTop: 4 }}>{recipient}</div>
+        <div style={{ fontSize: 8.5, fontStyle: 'italic', color: 'rgba(200,169,110,.65)', marginTop: 3, fontFamily: 'Georgia, serif' }}>{date}</div>
       </div>
     </div>
   )
