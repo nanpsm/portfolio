@@ -7,9 +7,8 @@ const ROOM_SECTIONS: Record<string, string> = {
   I:   'projects',
   II:  'skills',
   III: 'education',
-  IV:  'experience',
-  V:   'certificates',
-  VI:  'contact',
+  IV:  'certificates',
+  V:   'contact',
 }
 
 function FloorMapPage({ hovered, setHovered }: {
@@ -68,12 +67,13 @@ function FloorMapPage({ hovered, setHovered }: {
           <rect x="490" y="50"  width="250" height="480" fill="#FAF8F2" />
           <rect x="310" y="50"  width="180" height="480" fill="#F2EFE6" />
           <rect x="310" y="50"  width="180" height="480" fill="url(#hall-hatch-cf)" />
+          <rect x="490" y="370" width="250" height="160" fill="#F5F8ED" />
           <rect x="350" y="530" width="100" height="80"  fill="#F2EFE6" />
           <rect x="350" y="530" width="100" height="80"  fill="url(#hall-hatch-cf)" />
 
           {[
             { x: 185, y: 130, t: 'I' }, { x: 185, y: 290, t: 'II' }, { x: 185, y: 450, t: 'III' },
-            { x: 615, y: 130, t: 'IV' }, { x: 615, y: 290, t: 'V' }, { x: 615, y: 450, t: 'VI' },
+            { x: 615, y: 130, t: 'IV' }, { x: 615, y: 290, t: 'V' },
           ].map(({ x, y, t }) => (
             <text key={t} x={x} y={y} fontFamily="Georgia,serif" fontSize="90" fill="rgba(30,59,69,0.038)" textAnchor="middle" dominantBaseline="middle" fontStyle="italic">{t}</text>
           ))}
@@ -81,7 +81,7 @@ function FloorMapPage({ hovered, setHovered }: {
           {[
             { room: 'I', x: 60, y: 50, w: 250, h: 160 }, { room: 'II', x: 60, y: 210, w: 250, h: 160 },
             { room: 'III', x: 60, y: 370, w: 250, h: 160 }, { room: 'IV', x: 490, y: 50, w: 250, h: 160 },
-            { room: 'V', x: 490, y: 210, w: 250, h: 160 }, { room: 'VI', x: 490, y: 370, w: 250, h: 160 },
+            { room: 'V', x: 490, y: 210, w: 250, h: 160 },
           ].map(({ room, x, y, w, h }) => (
             <rect key={room} x={x} y={y} width={w} height={h}
               fill={roomFill(room)} style={{ cursor: 'pointer', transition: 'fill 0.2s' }}
@@ -91,8 +91,8 @@ function FloorMapPage({ hovered, setHovered }: {
 
           <g stroke="#1E3B45" strokeWidth="2" strokeLinecap="square" fill="none">
             <line x1="60" y1="50" x2="740" y2="50" /><line x1="60" y1="50" x2="60" y2="530" />
-            <line x1="740" y1="50" x2="740" y2="530" /><line x1="60" y1="530" x2="350" y2="530" />
-            <line x1="450" y1="530" x2="740" y2="530" /><line x1="350" y1="530" x2="350" y2="610" />
+            <line x1="740" y1="50" x2="740" y2="370" /><line x1="60" y1="530" x2="350" y2="530" />
+            <line x1="450" y1="530" x2="490" y2="530" /><line x1="350" y1="530" x2="350" y2="610" />
             <line x1="450" y1="530" x2="450" y2="610" /><line x1="350" y1="610" x2="382" y2="610" />
             <line x1="418" y1="610" x2="450" y2="610" />
           </g>
@@ -102,17 +102,17 @@ function FloorMapPage({ hovered, setHovered }: {
             <line x1="310" y1="370" x2="310" y2="420" /><line x1="310" y1="474" x2="310" y2="530" />
             <line x1="490" y1="50" x2="490" y2="100" /><line x1="490" y1="154" x2="490" y2="210" />
             <line x1="490" y1="210" x2="490" y2="260" /><line x1="490" y1="314" x2="490" y2="370" />
-            <line x1="490" y1="370" x2="490" y2="420" /><line x1="490" y1="474" x2="490" y2="530" />
+            <line x1="490" y1="370" x2="490" y2="530" />
             <line x1="60" y1="210" x2="310" y2="210" /><line x1="60" y1="370" x2="310" y2="370" />
             <line x1="490" y1="210" x2="740" y2="210" /><line x1="490" y1="370" x2="740" y2="370" />
           </g>
           <g stroke="#1E3B45" strokeWidth="0.9" fill="none">
             <path d="M310,100 L310,154 A54,54 0 0 1 256,100" /><path d="M310,260 L310,314 A54,54 0 0 1 256,260" />
             <path d="M310,420 L310,474 A54,54 0 0 1 256,420" /><path d="M490,100 L490,154 A54,54 0 0 0 544,100" />
-            <path d="M490,260 L490,314 A54,54 0 0 0 544,260" /><path d="M490,420 L490,474 A54,54 0 0 0 544,420" />
+            <path d="M490,260 L490,314 A54,54 0 0 0 544,260" />
           </g>
           <g fill="#1E3B45">
-            {([[60,50],[740,50],[60,530],[740,530],[310,50],[490,50],[310,530],[490,530]] as [number,number][]).map(([cx,cy]) => <circle key={`a${cx}${cy}`} cx={cx} cy={cy} r="4.5" />)}
+            {([[60,50],[740,50],[60,530],[310,50],[490,50],[310,530],[490,530]] as [number,number][]).map(([cx,cy]) => <circle key={`a${cx}${cy}`} cx={cx} cy={cy} r="4.5" />)}
             {([[310,210],[490,210],[310,370],[490,370]] as [number,number][]).map(([cx,cy]) => <circle key={`b${cx}${cy}`} cx={cx} cy={cy} r="4" />)}
             {([[60,210],[740,210],[60,370],[740,370],[350,530],[450,530]] as [number,number][]).map(([cx,cy]) => <circle key={`c${cx}${cy}`} cx={cx} cy={cy} r="3.5" />)}
           </g>
@@ -121,16 +121,15 @@ function FloorMapPage({ hovered, setHovered }: {
             { x: 80, y: 72, mono: 'ROOM I', serif: 'Projects', sY: 90 },
             { x: 80, y: 232, mono: 'ROOM II', serif: 'Skills', sY: 250 },
             { x: 80, y: 392, mono: 'ROOM III', serif: 'Education', sY: 410 },
-            { x: 508, y: 72, mono: 'ROOM IV', serif: 'Experience', sY: 90 },
-            { x: 508, y: 232, mono: 'ROOM V', serif: 'Certificates', sY: 250 },
-            { x: 508, y: 392, mono: 'ROOM VI', serif: 'Gift Shop', sY: 410 },
+            { x: 508, y: 72, mono: 'ROOM IV', serif: 'Certificates', sY: 90 },
+            { x: 508, y: 232, mono: 'ROOM V', serif: 'Gift Shop', sY: 250 },
           ].map(({ x, y, mono, serif, sY }) => (
             <g key={mono}>
               <text x={x} y={y} fontFamily="monospace" fontSize="8.5" letterSpacing="2.5" fill="#8A8E7B">{mono}</text>
               <text x={x} y={sY} fontFamily="Georgia,serif" fontSize="16" fontStyle="italic" fill="#1E3B45">{serif}</text>
             </g>
           ))}
-          <text x="508" y="426" fontFamily="monospace" fontSize="8" letterSpacing="1.5" fill="#8A8E7B">(Contact)</text>
+          <text x="508" y="266" fontFamily="monospace" fontSize="8" letterSpacing="1.5" fill="#8A8E7B">(Contact)</text>
           <text x="400" y="290" fontFamily="monospace" fontSize="9" letterSpacing="4" fill="rgba(30,59,69,0.42)" textAnchor="middle" dominantBaseline="middle" transform="rotate(-90,400,290)">GRAND HALL</text>
           <text x="400" y="573" fontFamily="monospace" fontSize="8" letterSpacing="2.5" fill="rgba(30,59,69,0.48)" textAnchor="middle">ENTRY</text>
           <line x1="382" y1="606" x2="382" y2="616" stroke="#1E3B45" strokeWidth="1.5" />

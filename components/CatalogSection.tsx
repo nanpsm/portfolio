@@ -6,9 +6,8 @@ const ROOMS = [
   { num: 'I',   name: 'Projects',     note: 'Selected works' },
   { num: 'II',  name: 'Skills',       note: 'Tools & technologies' },
   { num: 'III', name: 'Education',    note: 'Academic background' },
-  { num: 'IV',  name: 'Experience',   note: 'Professional history' },
-  { num: 'V',   name: 'Certificates', note: 'Credentials' },
-  { num: 'VI',  name: 'Gift Shop',    note: 'Contact · Collaboration' },
+  { num: 'IV',  name: 'Certificates', note: 'Credentials' },
+  { num: 'V',   name: 'Gift Shop',    note: 'Contact · Collaboration' },
 ]
 
 export default function CatalogSection() {

@@ -160,19 +160,6 @@ const data = [
       />
     ),
   },
-  {
-    title: '2022',
-    content: (
-      <EntryCard
-        degree="General Educational Development (GED)"
-        institution="International Examination"
-        location="Yangon, Myanmar"
-        years="2022"
-        description="Earned the internationally recognised GED credential in Myanmar — the qualification that made the move to Singapore possible. A self-directed step taken without a clear roadmap, and the one that started everything."
-        tags={['International Credential', 'Self-directed', 'Myanmar', 'Foundation']}
-      />
-    ),
-  },
 ]
 
 export default function EducationSection() {
