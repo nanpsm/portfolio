@@ -359,7 +359,7 @@ export default function ProjectsSection() {
         {/* ── Title row ── */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'end', gap: '32px', marginBottom: '56px' }}>
           <div>
-            <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '13px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#8A8E7B', marginBottom: '14px' }}>Nan Phyu Sin Maung</div>
+            <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '15px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#1E3B45', marginBottom: '14px' }}>Nan Phyu Sin Maung</div>
             <h1 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 400, fontSize: 'clamp(48px, 7vw, 88px)', lineHeight: 0.9, letterSpacing: '-0.02em', margin: 0, color: '#14170F' }}>Projects</h1>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px', fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#8A8E7B' }}>

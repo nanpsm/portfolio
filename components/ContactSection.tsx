@@ -299,30 +299,15 @@ export default function ContactSection() {
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ borderTop: '1px solid rgba(20,23,15,0.1)', marginBottom: '24px' }} />
           {/* room badge strip */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '28px' }}>
-            <div style={{
-              background: '#1E3B45',
-              color: '#B4E650',
-              fontFamily: 'var(--font-jetbrains), monospace',
-              fontSize: '9px',
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              padding: '5px 14px',
-              whiteSpace: 'nowrap',
-            }}>
-              Room VI
-            </div>
-            <span style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
-              fontSize: '9px',
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#8A8E7B',
-            }}>
-              Final stop
-            </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '18px', fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8E7B', padding: '28px 0 40px' }}>
+            <span style={{ background: '#1E3B45', color: '#B4E650', padding: '5px 12px', letterSpacing: '0.16em', fontFamily: 'var(--font-jetbrains), monospace' }}>Room VI</span>
+            <span style={{ flex: 1, height: '1px', background: 'rgba(30,59,69,0.18)' }} />
+            <span>Final stop</span>
           </div>
 
+          <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '15px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#1E3B45', marginBottom: '14px' }}>
+            Nan Phyu Sin Maung
+          </div>
           <h1 style={{
             fontFamily: 'var(--font-playfair), serif',
             fontWeight: 400,

@@ -65,7 +65,7 @@ function TicketContent() {
 
         {/* Name */}
         <h2 style={{ fontFamily: 'var(--font-display), serif', fontWeight: 400, fontSize: 'clamp(40px, 6vw, 68px)', lineHeight: 0.92, letterSpacing: '-0.01em', color: '#1E3B45', margin: '0 0 22px' }}>
-          Nan Phyu<br />Sin Maung
+          Nan Phyu Sin Maung
         </h2>
 
         {/* Two-part bar */}
@@ -75,7 +75,10 @@ function TicketContent() {
         </div>
 
         {/* Role */}
-        <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '10px', letterSpacing: '0.1em', color: '#3F5652', margin: '0 0 26px', lineHeight: 1.95 }}>
+        <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '11px', letterSpacing: '0.14em', color: '#1E3B45', margin: '0 0 6px', fontWeight: 500 }}>
+          Full Stack Engineer · Data Engineer
+        </p>
+        <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '9px', letterSpacing: '0.1em', color: '#6E8388', margin: '0 0 20px' }}>
           Singapore-based · Available 2026
         </p>
 
@@ -152,11 +155,14 @@ export default function ScrollStrokePath() {
         <p className="relative" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '11px', letterSpacing: '0.2em', color: '#8A9A7A', marginBottom: '16px' }}>
           THE COLLECTION · 2026 · SINGAPORE
         </p>
-        <h1 className="relative" style={{ fontFamily: 'var(--font-display), serif', fontWeight: 700, fontSize: 'clamp(48px, 7vw, 96px)', lineHeight: 1.05, color: '#1A1F14', margin: '0 0 24px' }}>
+        <h1 className="relative" style={{ fontFamily: 'var(--font-display), serif', fontWeight: 700, fontSize: 'clamp(48px, 7vw, 96px)', lineHeight: 1.05, color: '#1A1F14', margin: '0 0 18px' }}>
           Nan Phyu Sin Maung
         </h1>
-        <p className="relative" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '12px', letterSpacing: '0.1em', color: '#8A9A7A', margin: '0 0 8px', maxWidth: '40ch', textAlign: 'center' }}>
-          A living exhibition of systems, products, and craft.
+        <p className="relative" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '13px', letterSpacing: '0.18em', color: '#1E3B45', margin: '0 0 12px', textAlign: 'center', fontWeight: 500 }}>
+          Full Stack Engineer · Data Engineer
+        </p>
+        <p className="relative" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '11px', letterSpacing: '0.1em', color: '#8A9A7A', margin: '0 0 8px', maxWidth: '40ch', textAlign: 'center' }}>
+          Building products and data systems — Singapore, 2026
         </p>
       </div>
 

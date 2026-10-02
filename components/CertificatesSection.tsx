@@ -161,6 +161,9 @@ export default function CertificatesSection() {
 
         {/* Title */}
         <div style={{ marginBottom: 72 }}>
+          <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '15px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#1E3B45', marginBottom: '14px' }}>
+            Nan Phyu Sin Maung
+          </div>
           <h1 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 400, fontSize: 'clamp(48px,7vw,88px)', lineHeight: 0.9, letterSpacing: '-0.02em', margin: 0, color: '#14170F' }}>
             Credentials
           </h1>

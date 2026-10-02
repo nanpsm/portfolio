@@ -41,8 +41,8 @@ export default function SkillsSection() {
         <div style={{ marginBottom: '48px' }}>
           <div style={{
             fontFamily: 'var(--font-jetbrains), monospace',
-            fontSize: '13px', letterSpacing: '0.22em', textTransform: 'uppercase',
-            color: '#8A8E7B', marginBottom: '14px',
+            fontSize: '15px', letterSpacing: '0.22em', textTransform: 'uppercase',
+            color: '#1E3B45', marginBottom: '14px',
           }}>Nan Phyu Sin Maung</div>
           <h1 style={{
             fontFamily: 'var(--font-playfair), serif',
