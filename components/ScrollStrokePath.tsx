@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 // Vertical tear — mostly flat sections, a few small bumps, 2-3 proper spikes
 const TEAR: [number, number][] = [
@@ -123,6 +124,7 @@ function TicketContent() {
 }
 
 export default function ScrollStrokePath() {
+  const isMobile = useIsMobile()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref })
 
@@ -158,7 +160,7 @@ export default function ScrollStrokePath() {
         <h1 className="relative" style={{ fontFamily: 'var(--font-display), serif', fontWeight: 700, fontSize: 'clamp(48px, 7vw, 96px)', lineHeight: 1.05, color: '#1A1F14', margin: '0 0 18px' }}>
           Nan Phyu Sin Maung
         </h1>
-        <p className="relative" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '13px', letterSpacing: '0.18em', color: '#1E3B45', margin: '0 0 12px', textAlign: 'center', fontWeight: 500 }}>
+        <p className="relative" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: isMobile ? '13px' : '19px', letterSpacing: '0.14em', color: '#1E3B45', margin: '0 0 12px', textAlign: 'center', fontWeight: 500 }}>
           Full Stack Engineer · Data Engineer
         </p>
         <p className="relative" style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '11px', letterSpacing: '0.1em', color: '#8A9A7A', margin: '0 0 8px', maxWidth: '40ch', textAlign: 'center' }}>
@@ -168,7 +170,7 @@ export default function ScrollStrokePath() {
 
       {/* ── Ticket ── */}
       <div className="w-full translate-y-[120vh] pt-12 pb-16">
-        <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 32px' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', padding: isMobile ? '0 16px' : '0 32px' }}>
           <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '9px', letterSpacing: '0.26em', color: '#8A9A7A', textTransform: 'uppercase', marginBottom: '28px', textAlign: 'center' }}>
             The Collection · Portfolio Exhibition · 2026
           </p>

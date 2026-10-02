@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 // ── Stamp SVG ─────────────────────────────────────────────────────────────
 function StampSVG({ uid, title, subtitle, recipient, date }: {
@@ -118,6 +119,7 @@ function Exhibit({ children, matPad, plaqueTitle, plaqueSub }: {
 
 // ── Main section ───────────────────────────────────────────────────────────
 export default function CertificatesSection() {
+  const isMobile = useIsMobile()
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -148,7 +150,7 @@ export default function CertificatesSection() {
       style={{ background: '#F5F8ED', color: '#14170F', fontFamily: 'var(--font-jetbrains), monospace', paddingBottom: 120 }}
     >
       {/* ── Top content ── */}
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '0 20px' : '0 48px' }}>
 
         <div style={{ borderTop: '1px solid rgba(20,23,15,.1)', marginTop: 24 }} />
 
@@ -171,7 +173,7 @@ export default function CertificatesSection() {
       </div>
 
       {/* ── Gallery wall ── */}
-      <div style={{ background: 'linear-gradient(175deg,#1E3B45 0%,#152D35 60%,#0F2028 100%)', padding: '56px 60px 72px', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ background: 'linear-gradient(175deg,#1E3B45 0%,#152D35 60%,#0F2028 100%)', padding: isMobile ? '40px 20px 56px' : '56px 60px 72px', position: 'relative', overflow: 'hidden' }}>
 
         {/* Grid lines */}
         <div style={{ position: 'absolute', inset: 0, display: 'grid', gridTemplateColumns: 'repeat(8,1fr)', pointerEvents: 'none' }}>
@@ -187,7 +189,7 @@ export default function CertificatesSection() {
         </div>
 
         {/* Exhibit grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '52px 48px', alignItems: 'start', position: 'relative', zIndex: 1, maxWidth: 720, margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2,1fr)', gap: isMobile ? '36px 0' : '52px 48px', alignItems: 'start', position: 'relative', zIndex: 1, maxWidth: 720, margin: '0 auto' }}>
 
           <Exhibit matPad="22px 32px" plaqueTitle="AWS Cloud Practitioner" plaqueSub="Amazon Web Services · Sep 2026">
             <StampSVG uid="1" title="AWS CLOUD PRACTITIONER" subtitle="Amazon Web Services" recipient="NPS Maung" date="Sep 2026" />

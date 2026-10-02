@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react'
 import BoxCarousel, { type BoxCarouselRef, type CarouselItem } from '@/components/ui/box-carousel'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 // ── Roman numeral helpers ──────────────────────────────────────────────────
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']
@@ -273,6 +274,7 @@ function NavBtn({ onClick, children, borderSide }: {
 
 // ── Main component ─────────────────────────────────────────────────────────
 export default function ProjectsSection() {
+  const isMobile = useIsMobile()
   const carouselRef = useRef<BoxCarouselRef>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
   const items = buildItems()
@@ -284,7 +286,7 @@ export default function ProjectsSection() {
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth
-      if (w < 600) setWidth(Math.min(w - 48, 280))
+      if (w < 600) setWidth(Math.min(w - 40, 300))
       else if (w < 900) setWidth(340)
       else setWidth(420)
     }
@@ -340,7 +342,7 @@ export default function ProjectsSection() {
         paddingBottom: '96px',
       }}
     >
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 48px' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '0 20px' : '0 48px' }}>
 
         {/* ── Top border ── */}
         <div style={{ borderTop: '1px solid rgba(20,23,15,0.1)', margin: '24px 0 0' }} />
@@ -353,19 +355,21 @@ export default function ProjectsSection() {
         }}>
           <span style={{ background: '#1E3B45', color: '#B4E650', padding: '5px 12px', letterSpacing: '0.16em' }}>Room I</span>
           <span style={{ flex: 1, height: '1px', background: 'rgba(30,59,69,0.18)' }} />
-          <span>Drag or use arrows to navigate</span>
+          {!isMobile && <span>Drag or use arrows to navigate</span>}
         </div>
 
         {/* ── Title row ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'end', gap: '32px', marginBottom: '56px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr auto', alignItems: 'end', gap: '16px', marginBottom: '56px' }}>
           <div>
             <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '15px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#1E3B45', marginBottom: '14px' }}>Nan Phyu Sin Maung</div>
             <h1 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 400, fontSize: 'clamp(48px, 7vw, 88px)', lineHeight: 0.9, letterSpacing: '-0.02em', margin: 0, color: '#14170F' }}>Projects</h1>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px', fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#8A8E7B' }}>
-            <span>{currentProject.num} of {totalRoman}</span>
-            <span style={{ fontFamily: 'var(--font-playfair), serif', fontStyle: 'italic', fontSize: '14px', letterSpacing: '0.02em', color: '#1E3B45', textTransform: 'none' }}>{currentProject.title}</span>
-          </div>
+          {!isMobile && (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px', fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#8A8E7B' }}>
+              <span>{currentProject.num} of {totalRoman}</span>
+              <span style={{ fontFamily: 'var(--font-playfair), serif', fontStyle: 'italic', fontSize: '14px', letterSpacing: '0.02em', color: '#1E3B45', textTransform: 'none' }}>{currentProject.title}</span>
+            </div>
+          )}
         </div>
 
         {/* ── Gallery stage + carousel ── */}

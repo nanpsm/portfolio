@@ -1,5 +1,6 @@
 'use client'
 import { Timeline } from '@/components/ui/timeline'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 const TAG_STYLE: React.CSSProperties = {
   display: 'inline-block',
@@ -163,6 +164,7 @@ const data = [
 ]
 
 export default function EducationSection() {
+  const isMobile = useIsMobile()
   return (
     <section
       id="education"
@@ -174,7 +176,7 @@ export default function EducationSection() {
         paddingBottom: '80px',
       }}
     >
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 48px' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '0 20px' : '0 48px' }}>
 
         {/* Top border */}
         <div style={{ borderTop: '1px solid rgba(20,23,15,0.1)', margin: '16px 0 0' }} />

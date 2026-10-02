@@ -1,10 +1,12 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 const SkillsBook = dynamic(() => import('@/components/ui/book-slider'), { ssr: false })
 
 export default function SkillsSection() {
+  const isMobile = useIsMobile()
 
   return (
     <section
@@ -17,7 +19,7 @@ export default function SkillsSection() {
         paddingBottom: '80px',
       }}
     >
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 48px' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: isMobile ? '0 20px' : '0 48px' }}>
 
 
         {/* ── Top border ── */}

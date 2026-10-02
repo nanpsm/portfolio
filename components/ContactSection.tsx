@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 
 // ── Resume SVG icon ────────────────────────────────────────────────────────
@@ -26,6 +27,7 @@ function ShopItem({ href, icon, label, sublabel, plaque, plaqueStyle }: {
   plaque: string
   plaqueStyle?: React.CSSProperties
 }) {
+  const isMobile = useIsMobile()
   const [hovered, setHovered] = useState(false)
   return (
     <a
@@ -50,22 +52,23 @@ function ShopItem({ href, icon, label, sublabel, plaque, plaqueStyle }: {
         {/* mat */}
         <div style={{
           background: '#F0EDE4',
-          padding: '40px 32px',
-          minHeight: '220px',
+          padding: isMobile ? '24px 16px' : '40px 32px',
+          minHeight: isMobile ? '160px' : '220px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '18px',
+          gap: isMobile ? '12px' : '18px',
         }}>
           {icon}
           <div style={{ textAlign: 'center' }}>
             <div style={{
               fontFamily: 'var(--font-playfair), serif',
               fontStyle: 'italic',
-              fontSize: '17px',
+              fontSize: isMobile ? '13px' : '17px',
               color: '#1E3B45',
-              marginBottom: '6px',
+              marginBottom: '4px',
+              textAlign: 'center',
             }}>{label}</div>
             <div style={{
               fontFamily: 'var(--font-jetbrains), monospace',
@@ -98,6 +101,7 @@ function ShopItem({ href, icon, label, sublabel, plaque, plaqueStyle }: {
 
 // ── Guest Book ─────────────────────────────────────────────────────────────
 function GuestBook() {
+  const isMobile = useIsMobile()
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
   const [success, setSuccess] = useState(false)
@@ -141,7 +145,7 @@ function GuestBook() {
   return (
     <div style={{
       background: 'linear-gradient(175deg, #1E3B45 0%, #152D35 60%, #0F2028 100%)',
-      padding: '72px 60px',
+      padding: isMobile ? '48px 20px' : '72px 60px',
       position: 'relative',
       overflow: 'hidden',
     }}>
@@ -168,13 +172,13 @@ function GuestBook() {
         {/* form card */}
         <div style={{
           background: '#0D1C22',
-          padding: '12px',
+          padding: isMobile ? '8px' : '12px',
           boxShadow: '0 40px 80px rgba(0,0,0,.5)',
           maxWidth: '560px',
           margin: '0 auto',
         }}>
           {/* page */}
-          <div style={{ background: '#FAF8F2', padding: '36px 32px', minHeight: '360px' }}>
+          <div style={{ background: '#FAF8F2', padding: isMobile ? '24px 18px' : '36px 32px', minHeight: '360px' }}>
             <div style={{ fontFamily: 'var(--font-jetbrains), monospace', fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.24em', color: '#8A8E7B', marginBottom: '8px' }}>
               Sign the book
             </div>
@@ -290,12 +294,13 @@ function SubmitButton({ submitting }: { submitting: boolean }) {
 
 // ── Main export ────────────────────────────────────────────────────────────
 export default function ContactSection() {
+  const isMobile = useIsMobile()
   const [backHovered, setBackHovered] = useState(false)
 
   return (
     <section id="contact">
       {/* ── Gift Shop header ── */}
-      <div style={{ background: '#F5F8ED', padding: '72px 48px 56px' }}>
+      <div style={{ background: '#F5F8ED', padding: isMobile ? '48px 20px 40px' : '72px 48px 56px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ borderTop: '1px solid rgba(20,23,15,0.1)', marginBottom: '24px' }} />
           {/* room badge strip */}
@@ -331,11 +336,11 @@ export default function ContactSection() {
             Take something with you before you go.
           </p>
 
-          {/* 4-column item grid */}
+          {/* Gift shop item grid — 4-col desktop, 2-col mobile */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '24px',
+            gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+            gap: isMobile ? '16px' : '24px',
           }}>
             <ShopItem
               href="/resume.pdf"
@@ -409,7 +414,7 @@ export default function ContactSection() {
       {/* ── Exit ── */}
       <div style={{
         background: '#F5F8ED',
-        padding: '64px 48px',
+        padding: isMobile ? '48px 20px' : '64px 48px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

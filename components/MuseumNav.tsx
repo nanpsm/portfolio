@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 const ROOMS = [
   { name: 'Artist Intro', room: 'Lobby',            id: 'intro' },
@@ -33,6 +34,7 @@ function nearestCorner(x: number, y: number): Corner {
 }
 
 export default function MuseumNav() {
+  const isMobile = useIsMobile()
   const [open, setOpen]               = useState(false)
   const [hoveredRoom, setHoveredRoom] = useState<string | null>(null)
   const [corner, setCorner]           = useState<Corner>('bottom-right')
@@ -231,7 +233,7 @@ export default function MuseumNav() {
         style={{
           position: 'fixed', top: 0, bottom: 0,
           right: 0, left: 'auto',
-          width: '440px',
+          width: isMobile ? '100%' : '440px',
           zIndex: 300,
           background: 'linear-gradient(160deg, #1E3B45, #122730)',
           transform: panelTranslate,
