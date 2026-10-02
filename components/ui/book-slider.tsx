@@ -6,7 +6,6 @@ import HTMLFlipBook from 'react-pageflip'
 // ── Types ──────────────────────────────────────────────────────────────────
 interface Skill {
   name: string
-  level: 'Expert' | 'Advanced' | 'Intermediate'
 }
 
 interface SkillPageProps {
@@ -18,11 +17,6 @@ interface SkillPageProps {
 }
 
 // ── Skill page — forwardRef required for react-pageflip child refs ─────────
-const levelColor = {
-  Expert: '#B4E650',
-  Advanced: '#6E8388',
-  Intermediate: '#8A8E7B',
-} as const
 
 const SkillPage = forwardRef<HTMLDivElement, SkillPageProps>(
   function SkillPage({ panel, title, subtitle, skills, since }, ref) {
@@ -50,9 +44,6 @@ const SkillPage = forwardRef<HTMLDivElement, SkillPageProps>(
                 <span style={{ fontSize: '11px', letterSpacing: '0.04em', color: '#1E3B45', fontFamily: 'JetBrains Mono, monospace' }}>
                   {skill.name}
                 </span>
-                <span style={{ fontSize: '8px', letterSpacing: '0.14em', textTransform: 'uppercase', color: levelColor[skill.level], fontFamily: 'JetBrains Mono, monospace' }}>
-                  {skill.level}
-                </span>
               </div>
             ))}
           </div>
@@ -71,57 +62,57 @@ const pages: SkillPageProps[] = [
   {
     panel: 'I', title: 'Front of House', subtitle: 'Frontend Engineering', since: '2023 — present',
     skills: [
-      { name: 'React',        level: 'Expert' },
-      { name: 'Next.js',      level: 'Expert' },
-      { name: 'TypeScript',   level: 'Expert' },
-      { name: 'Tailwind CSS', level: 'Advanced' },
-      { name: 'REST APIs',    level: 'Advanced' },
-      { name: 'WebSocket',    level: 'Advanced' },
-      { name: 'Prisma',       level: 'Intermediate' },
+      { name: 'React' },
+      { name: 'Next.js' },
+      { name: 'TypeScript' },
+      { name: 'Tailwind CSS' },
+      { name: 'REST APIs' },
+      { name: 'WebSocket' },
+      { name: 'Prisma' },
     ],
   },
   {
     panel: 'II', title: 'Engineering', subtitle: 'Backend & Systems', since: '2024 — present',
     skills: [
-      { name: 'Python',      level: 'Expert' },
-      { name: 'JavaScript',  level: 'Advanced' },
-      { name: 'Java',        level: 'Advanced' },
-      { name: 'Node.js',     level: 'Advanced' },
-      { name: 'SQL',         level: 'Advanced' },
-      { name: 'C++',         level: 'Intermediate' },
+      { name: 'Python' },
+      { name: 'JavaScript' },
+      { name: 'Java' },
+      { name: 'Node.js' },
+      { name: 'SQL' },
+      { name: 'C++' },
     ],
   },
   {
     panel: 'III', title: 'The Archive', subtitle: 'Data Engineering', since: '2024 — present',
     skills: [
-      { name: 'Apache Spark', level: 'Advanced' },
-      { name: 'PostgreSQL',   level: 'Advanced' },
-      { name: 'MySQL',        level: 'Advanced' },
-      { name: 'Pandas',       level: 'Advanced' },
-      { name: 'Hadoop',       level: 'Intermediate' },
-      { name: 'MongoDB',      level: 'Intermediate' },
-      { name: 'Matplotlib',   level: 'Intermediate' },
+      { name: 'Apache Spark' },
+      { name: 'PostgreSQL' },
+      { name: 'MySQL' },
+      { name: 'Pandas' },
+      { name: 'Hadoop' },
+      { name: 'MongoDB' },
+      { name: 'Matplotlib' },
     ],
   },
   {
     panel: 'IV', title: 'Applied Intelligence', subtitle: 'ML & AI', since: '2025 — present',
     skills: [
-      { name: 'HuggingFace Transformers', level: 'Advanced' },
-      { name: 'OpenAI API',               level: 'Advanced' },
-      { name: 'Azure AI Foundry',         level: 'Advanced' },
-      { name: 'NLP & Fine-tuning',        level: 'Advanced' },
+      { name: 'HuggingFace Transformers' },
+      { name: 'OpenAI API' },
+      { name: 'Azure AI Foundry' },
+      { name: 'NLP & Fine-tuning' },
     ],
   },
   {
     panel: 'V', title: 'The Studio', subtitle: 'Cloud & Tools', since: '2023 — present',
     skills: [
-      { name: 'Git / GitHub',    level: 'Expert' },
-      { name: 'AWS',             level: 'Advanced' },
-      { name: 'Microsoft Azure', level: 'Advanced' },
-      { name: 'Supabase',        level: 'Advanced' },
-      { name: 'Vercel',          level: 'Advanced' },
-      { name: 'Playwright',      level: 'Advanced' },
-      { name: 'Vitest',          level: 'Intermediate' },
+      { name: 'Git / GitHub' },
+      { name: 'AWS' },
+      { name: 'Microsoft Azure' },
+      { name: 'Supabase' },
+      { name: 'Vercel' },
+      { name: 'Playwright' },
+      { name: 'Vitest' },
     ],
   },
 ]
