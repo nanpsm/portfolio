@@ -1,334 +1,215 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 
-const CERTS = [
-  {
-    id: 'aws-saa',
-    issuer: 'Amazon Web Services',
-    name: 'AWS Certified Solutions Architect',
-    level: 'Associate',
-    date: 'Oct 2026',
-    abbr: 'SAA-C03',
-    color: '#FF9900',
-  },
-  {
-    id: 'aws-ccp',
-    issuer: 'Amazon Web Services',
-    name: 'AWS Certified Cloud Practitioner',
-    level: 'Foundational',
-    date: 'Sep 2026',
-    abbr: 'CLF-C02',
-    color: '#FF9900',
-  },
-  {
-    id: 'ibm-de',
-    issuer: 'IBM / Coursera',
-    name: 'Data Engineering Professional Certificate',
-    level: 'Professional',
-    date: 'Oct 2026',
-    abbr: 'IBM-DE',
-    color: '#006699',
-  },
-]
+// ── Stamp SVG ─────────────────────────────────────────────────────────────
+function StampSVG({ uid, title, subtitle, recipient, date }: {
+  uid: string; title: string; subtitle: string; recipient: string; date: string
+}) {
+  const R = 96, teeth = 40
+  let path = ''
+  for (let i = 0; i < teeth; i++) {
+    const a = (i / teeth) * 2 * Math.PI
+    const r = i % 2 === 0 ? R : R - 9
+    const x = (Math.cos(a) * r + R).toFixed(1)
+    const y = (Math.sin(a) * r + R).toFixed(1)
+    path += i === 0 ? `M${x} ${y}` : `L${x} ${y}`
+  }
+  path += 'Z'
+  const tid = `tc${uid}`, bid = `bc${uid}`
 
-const AWARDS = [
-  {
-    id: 'impetus',
-    title: 'Impetus Award',
-    body: 'SIM Student Leaders Awards 2026',
-    year: '2026',
-    kind: 'stamp',
-  },
-  {
-    id: 'simclub',
-    title: 'General Subcommittee Member',
-    body: 'SIM IT Club',
-    year: '2025 – 2026',
-    kind: 'badge',
-  },
-]
-
-function CertCard({ cert, i }: { cert: typeof CERTS[0]; i: number }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: i * 0.1 }}
-      viewport={{ once: true }}
-      style={{
-        background: '#F5F2E8',
-        border: '1px solid rgba(30,59,69,0.18)',
-        borderTop: `3px solid ${cert.color}`,
-        padding: '28px 26px 24px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '12px',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Watermark abbr */}
-      <span style={{
-        position: 'absolute',
-        right: '16px',
-        bottom: '10px',
-        fontFamily: 'var(--font-playfair), serif',
-        fontStyle: 'italic',
-        fontSize: '52px',
-        color: 'rgba(30,59,69,0.05)',
-        lineHeight: 1,
-        pointerEvents: 'none',
-        userSelect: 'none',
-      }}>{cert.abbr}</span>
-
-      {/* Seal circle */}
-      <div style={{
-        width: '36px',
-        height: '36px',
-        borderRadius: '50%',
-        background: cert.color,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
-      }}>
-        <span style={{ fontSize: '14px' }}>✦</span>
+    <div style={{ position: 'relative', width: 190, height: 190, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} viewBox="0 0 192 192">
+        <defs>
+          <path id={tid} d="M41 96 A55 55 0 0 1 151 96" fill="none" />
+          <path id={bid} d="M36 96 A60 60 0 0 1 156 96" fill="none" transform="rotate(180 96 96)" />
+        </defs>
+        <path d={path} fill="#F4EFE4" stroke="rgba(200,169,110,.4)" strokeWidth="0.5" />
+        <circle cx="96" cy="96" r="78" fill="#ECE8DB" stroke="rgba(200,169,110,.35)" strokeWidth="0.5" />
+        <circle cx="96" cy="96" r="70" fill="none" stroke="rgba(30,59,69,.1)" strokeWidth="0.5" />
+        <text fontSize="10" fontFamily="JetBrains Mono, monospace" letterSpacing="0.06em">
+          <textPath href={`#${tid}`} startOffset="50%" textAnchor="middle" fill="#1E3B45">{title}</textPath>
+        </text>
+        <text fontSize="8.5" fontFamily="JetBrains Mono, monospace" letterSpacing="0.07em">
+          <textPath href={`#${bid}`} startOffset="50%" textAnchor="middle" fill="rgba(30,59,69,.5)">{subtitle}</textPath>
+        </text>
+      </svg>
+      <div style={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
+        <div style={{ color: '#C8A96E', fontSize: 24, lineHeight: '1', marginBottom: 6 }}>★</div>
+        <div style={{ fontSize: 9.5, fontFamily: 'var(--font-jetbrains), monospace', letterSpacing: '0.1em', color: '#1E3B45', marginTop: 4 }}>{recipient}</div>
+        <div style={{ fontSize: 8.5, fontStyle: 'italic', color: 'rgba(30,59,69,.48)', marginTop: 3, fontFamily: 'Georgia, serif' }}>{date}</div>
       </div>
-
-      <div>
-        <p style={{
-          fontFamily: 'var(--font-jetbrains), monospace',
-          fontSize: '8px',
-          letterSpacing: '0.22em',
-          textTransform: 'uppercase',
-          color: '#8A8074',
-          margin: '0 0 6px',
-        }}>{cert.issuer}</p>
-        <p style={{
-          fontFamily: 'var(--font-playfair), serif',
-          fontSize: '16px',
-          color: '#1E3B45',
-          margin: '0 0 3px',
-          lineHeight: 1.3,
-        }}>{cert.name}</p>
-        <p style={{
-          fontFamily: 'var(--font-jetbrains), monospace',
-          fontSize: '10px',
-          color: '#5A6B66',
-          margin: 0,
-        }}>{cert.level}</p>
-      </div>
-
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        borderTop: '1px dashed rgba(30,59,69,0.16)',
-        paddingTop: '12px',
-        marginTop: 'auto',
-      }}>
-        <span style={{
-          fontFamily: 'var(--font-jetbrains), monospace',
-          fontSize: '9px',
-          letterSpacing: '0.12em',
-          color: '#8A8074',
-          textTransform: 'uppercase',
-        }}>Issued {cert.date}</span>
-        <span style={{
-          fontFamily: 'var(--font-jetbrains), monospace',
-          fontSize: '8px',
-          color: cert.color,
-          letterSpacing: '0.08em',
-        }}>Verified ✓</span>
-      </div>
-    </motion.div>
+    </div>
   )
 }
 
-function StampAward({ award, i }: { award: typeof AWARDS[0]; i: number }) {
-  const isStamp = award.kind === 'stamp'
+// ── Badge card (IBM) ───────────────────────────────────────────────────────
+const BadgeSVGPath = {
+  a: "M453.85,385.1c16.99-26.81,1.62-58.47,18.76-87.24,12.03-20.19,29.82-36.18,27.29-62.46-2.84-29.52-33.04-48.63-35.87-75.13-2.33-21.77,2.23-43.54-9.49-63.51-17.52-29.86-57.27-24.53-79.03-47.97-14.71-15.84-24.1-37.76-46.27-45.73-31.05-11.17-56.45,12.73-85.44,9.44-22.25-2.52-42.24-16.43-65.98-11.43-26.93,5.68-36.44,28.9-52.83,47.17-18.28,20.39-48.97,19.08-69.44,36.56-23.39,19.97-16.36,46.88-19.55,73.45-3.37,28.13-28.95,43.88-34.69,70.31-8.97,41.31,30.51,58.13,34.69,93.72,2.55,21.68-2.27,42.21,9.85,62.15,13.67,22.49,41.07,24.3,62.09,35.93l-65.92,141.39,90.99-30,33.5,89,71.4-151.37c7.8-2.36,16.43-2.29,24.22-.03l69.89,151.41,35-89.01,90.98,30-65.92-141.4c20.6-11.4,47.98-13.54,61.74-35.28Z",
+  b: "M238.82,68.07C104.43,76.3,30.99,231.31,110.21,341.1c68.96,95.57,211.43,95.17,280.04-.59,84.76-118.31-7.09-281.26-151.43-272.43ZM374.44,319.7c-57.48,90.24-188.7,90.73-247.83,2-61.13-91.74-.65-219.62,109.21-228.61,122.55-10.03,205.2,122.08,138.62,226.62Z",
+  c: "M259.84,157.96c8.2,18.06,16.68,44.63,40.38,45.97l27.28,3.19c9.06,1.06,12.7,12.26,5.99,18.45-14.64,13.38-37.29,29.66-31.24,52.61l5.39,26.93c1.79,8.94-7.74,15.87-15.69,11.4-17.24-9.79-39.73-26.3-59.69-13.45l-23.94,13.45c-7.95,4.47-17.48-2.46-15.69-11.4,3.98-19.43,12.74-45.91-5.65-60.92l-20.19-18.61c-6.71-6.18-3.07-17.39,5.99-18.45,19.71-2.21,47.6-2.07,56.19-24.2l11.46-24.96c3.81-8.29,15.59-8.29,19.39,0Z",
+}
+
+function BadgeCard() {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.92 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.55, delay: i * 0.12 }}
-      viewport={{ once: true }}
-      style={{
-        display: 'flex',
-        flexDirection: isStamp ? 'column' : 'row',
-        alignItems: isStamp ? 'center' : 'flex-start',
-        gap: isStamp ? '14px' : '20px',
-        padding: '28px 32px',
-        border: isStamp
-          ? '1.5px solid rgba(180,230,80,0.4)'
-          : '1px solid rgba(30,59,69,0.22)',
-        background: isStamp
-          ? 'rgba(180,230,80,0.06)'
-          : 'rgba(30,59,69,0.12)',
-        textAlign: isStamp ? 'center' : 'left',
-        flex: 1,
-        minWidth: 0,
-      }}
-    >
-      {isStamp ? (
-        <>
-          {/* Stamp circle */}
-          <div style={{
-            width: '72px',
-            height: '72px',
-            borderRadius: '50%',
-            border: '2px solid #B4E650',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '2px',
-            flexShrink: 0,
-          }}>
-            <span style={{ fontSize: '22px', lineHeight: 1 }}>★</span>
-            <span style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
-              fontSize: '7px',
-              letterSpacing: '0.12em',
-              color: '#B4E650',
-              textTransform: 'uppercase',
-            }}>Award</span>
-          </div>
-          <div>
-            <p style={{
-              fontFamily: 'var(--font-playfair), serif',
-              fontSize: '17px',
-              color: '#F4EFE4',
-              margin: '0 0 5px',
-              lineHeight: 1.25,
-            }}>{award.title}</p>
-            <p style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
-              fontSize: '10px',
-              color: 'rgba(244,239,228,0.6)',
-              margin: '0 0 4px',
-            }}>{award.body}</p>
-            <p style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
-              fontSize: '9px',
-              letterSpacing: '0.14em',
-              color: 'rgba(180,230,80,0.75)',
-              margin: 0,
-              textTransform: 'uppercase',
-            }}>{award.year}</p>
-          </div>
-        </>
-      ) : (
-        <>
-          {/* Badge hexagon-ish */}
-          <div style={{
-            width: '48px',
-            height: '48px',
-            border: '1.5px solid rgba(180,230,80,0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-            transform: 'rotate(45deg)',
-          }}>
-            <div style={{ transform: 'rotate(-45deg)', fontSize: '18px' }}>◈</div>
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
-              fontSize: '8px',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: 'rgba(180,230,80,0.7)',
-              margin: '0 0 5px',
-            }}>Membership · {award.year}</p>
-            <p style={{
-              fontFamily: 'var(--font-playfair), serif',
-              fontSize: '17px',
-              color: '#F4EFE4',
-              margin: '0 0 3px',
-              lineHeight: 1.25,
-            }}>{award.title}</p>
-            <p style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
-              fontSize: '10px',
-              color: 'rgba(244,239,228,0.55)',
-              margin: 0,
-            }}>{award.body}</p>
-          </div>
-        </>
-      )}
-    </motion.div>
+    <div style={{ border: '4px solid rgba(30,59,69,.16)', padding: '14px 14px', display: 'flex', gap: 14, alignItems: 'center', background: '#FAF8F2', minWidth: 196 }}>
+      <svg style={{ flexShrink: 0, fill: '#1E3B45' }} width="48" height="60" viewBox="0 0 500.15 620.78">
+        <path d={BadgeSVGPath.a} /><path d={BadgeSVGPath.b} /><path d={BadgeSVGPath.c} />
+      </svg>
+      <div style={{ borderLeft: '1px solid rgba(30,59,69,.18)', paddingLeft: 12, flex: 1 }}>
+        <div style={{ fontFamily: 'var(--font-playfair), serif', fontSize: 17, fontWeight: 700, color: '#1E3B45', lineHeight: 1.1 }}>IBM</div>
+        <div style={{ fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#6E8388', fontFamily: 'var(--font-jetbrains), monospace', marginBottom: 10 }}>Data Engineering</div>
+        <div style={{ fontSize: 9, fontStyle: 'italic', color: '#8A8E7B', fontFamily: 'var(--font-playfair), serif' }}>Nan Phyu Sin Maung</div>
+        <div style={{ fontSize: 8, color: '#8A8E7B', fontFamily: 'var(--font-jetbrains), monospace', marginTop: 3, letterSpacing: '0.1em' }}>Oct 2026</div>
+      </div>
+    </div>
   )
 }
 
+// ── Laurel paths (long SVG data) ───────────────────────────────────────────
+const LAUREL_PATHS = [
+  "M892.6,358.7c-2.45,21.69-26.03,75.09-50.59,78.41-2.61.35-8.8-.53-10.21.3-.39.23-4.32,6.79-4.75,7.74-6.88,15.27-11.04,42.49-17.43,60.57-2.66,7.51-9.87,21.35-11.03,27.98-.1.58-.26,1.65.51,1.5,6.6-6.88,8.6-17.3,13.33-25.67,13.94-24.66,43.3-43.5,72.17-42.32-2.33,14.6-10.5,29.43-19.18,41.31-12.47,17.06-30.45,32.62-53.23,29.6-7.56-1-6.85-5.3-14.59,1.58-6.35,5.64-9.71,15.53-14.19,22.81-9.91,16.12-20.19,32.01-32.8,46.2,4.66.89,8.76-7.66,11.97-11.03,11.14-11.72,21.81-19.57,38.02-22.98,15.67-3.3,37.45-3.14,52.02,4.03-12.24,25.25-57.46,51.32-84.7,41.67-7.61-2.7-12.94-10.13-22.06-6.43-18.34,18.87-38.7,35.14-61.25,48.75,4.97,1.57,9.28-3.53,13.32-5.68,20.73-11.01,32.74-14.63,56.5-9.15,13.85,3.19,26.55,9.91,38.17,17.82-19.09,21.89-75.53,31.43-97.49,11.5-3.79-3.44-5.4-10.28-10.95-11.04-9.07-1.24-22.07,6.8-31.04,10.07-3.69,1.34-27.01,9.51-28.52,7.99.06-2.6-.8-5.29,1.57-6.93,1.5-1.04,17.65-4.87,21.68-6.32,8.48-3.06,22.88-8.38,30.46-12.54,9.12-5.01,2.78-21.66,2.3-29.72-1.18-19.76,7.83-43.47,20.48-58.5,1.79-2.13,19.39-19.37,21.51-16.98-2.82,28.58.11,60.88-19.03,84.46-2.69,3.03-6.49,6.06-10.06,7.94-4.12,2.16-9.31.65-8.9,7.59,1.27,1.23,11.02-5.38,12.91-6.58,10.31-6.56,22.01-15.72,31.1-23.9,2.59-2.34,19.93-19.11,20.44-20.46.23-.63-.39-11.92-.68-13.33-1.18-5.83-6.95-13.96-8.5-21.5-3.96-19.28-2.28-43.2,4.96-61.49,3.45-8.71,9.01-17.74,15.27-24.73,2.9,17.5,8.39,36.08,10.37,53.62,1.87,16.52.69,35.79-10.9,48.86-4.62,5.21-9.96,5.2-7.97,14.52,13.17-15.31,24.53-32.58,34.16-50.33,1.99-3.66,9.61-17.17,9.7-20.13.33-10.18-12.65-21.57-17.05-30.87-11.72-24.78-14.73-58.69-5.28-84.63.71-1.96,1.42-5.12,3.44-6.04,12.22,32.23,38.76,63.84,24.79,100.27-2.31,6.03-7.68,8.74-4.76,15.73,1.54-.25,1.89-1.87,2.47-3.02,7.87-15.49,14.88-42.87,18.84-60.16,1.87-8.16,6.12-21.11,2.85-28.5-4.29-9.69-11.33-11.15-18.64-17.35-24.62-20.88-33.84-58.75-31.52-89.97,1.97-.51,1.93.81,2.81,1.68,20.75,20.47,53.85,55.45,49.12,86.75-.44,2.9-3.52,7.02-3.71,9.23s2.82,4.83,2.79,7.33c1.42,1.39,1.82-.07,1.99-1.48.8-6.86,1.5-14.15,1.99-21.03,1.05-14.96,1.76-33.12,1.05-48.03-.45-9.51-.5-18.45-7.5-25.5-4.23-4.26-9.74-3.95-14.91-6.09-28.89-12.01-48.06-49.12-49.88-79.13-.07-1.11-2.03-1.97.73-1.73,23.64,16.34,59.89,35.61,63.41,67.59.81,7.39-3.03,17.42,5.1,20.39-.84-15.5-4.12-31.76-7.48-47.01-1.91-8.66-8.25-37.76-12.65-43.35-6.39-8.12-14.14-3.87-22.25-4.75-21.82-2.37-43.12-23.21-53.78-41.22-3.02-5.1-7.72-13-7.34-18.66,29.71,10.05,66.39,12.92,75.07,48.93,1.39,5.76-1.51,11.75,7.44,11.05-9.45-25.34-21.53-49.48-34.15-73.34-9.49-11.1-18.29-1.46-29.31-.62-24.24,1.85-49.97-15.79-62.53-35.54,12.16-1.78,27.18-2.45,39.53-1.53,14.47,1.07,29.13,6.2,36.65,19.35,3.12,5.45,2.93,14.34,10.8,11.68-7.94-13.11-17.24-26.37-27.04-38.45-2.54-3.14-13.54-16.92-15.98-18.02-7.78-3.53-11.89,2.2-17.3,4.66-22.22,10.12-48.27,3.4-65.69-12.67-1.12-1.03-7.02-6.35-5.98-7.51,17.62-2.11,36.48-11.68,54.24-7.75,8.57,1.89,16.8,6.91,22.19,13.81,2.88,3.69.83,6.42,7.06,6.94,1.49.12,2.92.63,2.49-1.49-8.92-8.7-17.38-18.05-26.98-26.03-3.66-3.04-13.47-11.25-17.29-12.71-4.55-1.73-10.25-.33-15.11-.89-27.28-3.12-48.71-29.1-57.58-53.4,1.55-2.18,1.45-.91,2.6-.65,29.66,6.66,68.48,16.71,70.87,53.16,21.14,14.84,39.62,33.01,57,52,.62-8.81-9.38-14.38-14.48-20.52-19.56-23.59-25.5-58.58-24.02-88.47.68-.79,10.44,7.02,11.52,7.97,20.16,17.57,37.02,49.29,34.52,76.57-1,10.9-9.52,15.89-4.29,28.21,1.81,4.26,14.83,18.08,18.66,23.34,9.6,13.17,19.55,27.31,26.6,41.91,1.62.09,2.24.49,1.98-1.47-.48-3.57-9.92-18.62-12.17-23.85-11.51-26.81-14.45-60.89-2.88-88.23.37-.88.81-2.87,2.06-1.96,9.94,12.98,16.87,28.86,21.49,44.52,5.8,19.65,9.83,40.98.04,60.03-1.45,2.82-4.93,5.59-5.48,8.51-2.09,11.08,6.07,21.31,10.12,30.78,7.21,16.81,14.1,33.95,18.83,51.67,1.58-.05,1.97-4.44,1.92-5.42-.27-5.28-7.25-19.63-8.64-27.37-4.67-26.05-2.53-50.65,10.53-73.88,1.45-2.57,4.8-8.51,6.73-10.28,1.69-1.54,1.69-.41,2.66,1.23,12.28,20.79,17.41,81.23,2.78,101.21-2.35,3.21-9.25,7.51-10.45,9.55-.39.66-3.05,12.36-3.11,13.43-.35,5.98,7.73,33.4,9.25,42.34,2.02,11.93,3.48,24.11,4.32,36.18,2.19-.58,1.95-2.71,2.05-4.46.4-6.52-1.93-15.33-2.11-22-.88-33.13,13.53-64.28,38.54-85.52,1.65-.03,3.41,14.23,3.55,16.43,1.54,24.35-4.14,74.1-26.52,88.57-6.99,4.52-12.38,3.46-14.29,13.71-2.29,12.31,3.05,32.46.81,45.81l-4.03,40.46c4.58-3.93,3.21-12.03,4.24-17.25,6.58-33.49,28.21-64.47,60.75-76.75-.37,4.65.51,9.94,0,14.5Z",
+  "M122.6,347.7c-1.7,17.7-14.14,47.55-26.48,60.52-5.79,6.09-14.83,9.27-20.05,15.95-7.2,9.23-5.11,14.49-3.18,25.23,4.49,25.1,12.63,50.47,22.72,73.79,1.68-.31,2.16-5.36,2.02-6.44-.24-1.76-4.97-6.9-6.22-9.86-8.94-21.17-.97-44.77,8.01-64.37l18.18-35.83c12.17,28.27,10.36,66.34-4.83,93.18-4.82,8.52-16.69,18.39-14.52,29.1.83,4.09,6.01,13.72,8.18,17.9,9.33,17.95,21.89,36.15,35.16,51.33,1.78-8.72-2.17-7.86-6.5-12.99-25.68-30.41-7.81-69.51-2-104.01,20.14,23.8,27.35,62.58,18.27,92.26-3.14,10.27-9.76,17.88-6.25,29.71,18.74,19.75,39.22,38.23,63.47,51.02.89-8.43-5.47-6.33-10.34-9.15-4.61-2.67-12.11-11.32-15.06-15.94-13.97-21.88-9.34-50.93-13.57-75.43,4.11-.29,10.26,4.82,13.45,7.55,18.34,15.69,31.07,45.29,29.51,69.46-.49,7.59-5.43,18.51-.47,25.5,1.35,1.9,21.37,10.31,25.22,11.78,9.94,3.8,20.08,6.73,30.28,9.72l.98,7.51c-7.54-2.18-15.1-4.36-22.51-6.98-7.88-2.79-24.11-11.27-30.95-12.04-11.89-1.35-11.52,5.99-19.05,12-20.85,16.65-61.75,9.86-83.5-2.46-2.07-1.18-13.19-7.73-11.54-10.53,21.13-14.47,48.69-24.76,74.34-17.26,10.95,3.2,20.18,11.91,29.19,14.81,1.02.33,5.04,1.53,5.02-.51-11.82-6.39-24.42-14.2-34.91-22.59-6.02-4.82-23.27-23.82-27.5-25.5-9.8-3.9-9.91.63-16.9,4.26-26.89,13.94-71.69-11.42-87.08-34.28-1.05-1.55-3.6-3.96-2.17-5.96,3.81-5.34,36.79-5.58,43.94-4.81,18.64,1.99,33.72,11.44,46.14,24.86,3.15,3.4,6.26,11.64,11.48,10.52-10.1-11.12-19.65-23.71-27.41-36.58-5-8.3-11.58-25.16-17.59-31.41-7.79-8.1-10.21-3.34-18.5-2.52-24.7,2.44-44.75-17.93-56.91-37.07-6.3-9.93-12.8-22.08-13.59-33.92,33.98-.41,60.36,19.86,75.52,48.98,3.34,6.42,4.42,14.83,10.47,19.02-6.28-16.37-13.32-32.34-18.26-49.23s-6.28-33.8-14.89-48.61c-33.08,1.59-49.47-37.67-57.35-64.16-2.91-9.81-5.26-18.73-3.5-28.99,26.83,9.2,52.19,40.65,58.53,67.96,1.93,8.33.98,19.55,6.46,26.03-5.71-27.36-4-55.47-3.25-83.24-.33-2.46-2.64-10.16-4.27-11.73-1.84-1.78-8.46-3.44-11.41-5.59-21.82-15.94-28.32-68.11-24.94-92.82.26-1.88,2.02-11.61,3.38-11.6,24.77,21.31,40.05,54.58,38.49,87.47-.37,7.9-3.74,17.25-1.49,24.51,1.87-1.18,1.21-2.88,1.51-4.49,2.56-13.9,3.69-28.54,6.31-42.69,1.26-6.78,7.5-26.71,7.24-31.33-.05-.87-2.77-11.88-3.12-12.42-.93-1.43-6.38-5.09-8.41-7.59-17.02-20.94-12.69-82.05.77-104.18.86-1.41,1.09-3.01,2.65-1.25,3.37,3.78,8.96,15.02,11.03,19.97,8.44,20.2,10.18,39.73,6.24,61.21-1.57,8.58-8.23,23.74-8.7,30.39-.09,1.31.19,5.98,1.96,6.38,2.2-9.93,5.59-20.68,9.26-30.24,4.82-12.57,15.43-28.92,18.49-40.51.76-2.89,1.78-9.95,1.23-12.72-.47-2.38-6.17-8.59-7.75-12.24-9.36-21.65.56-56.02,9.6-76.95.98-2.26,12.81-26.07,15.16-24.32,12.15,28.6,10.64,62.39-1.81,90.67-2.46,5.58-10.57,17.48-11.2,21.81-.14.96-.63,3.81,1.01,3.51,4.3-10.16,10.59-19.63,16.79-28.71,6.7-9.82,24.02-28.29,27.92-37.08,5.11-11.53.33-12.38-2.74-21.66-7.05-21.37,8.26-54.53,22.07-71.01,3.38-4.04,17.33-17.9,21.49-19.52,1.73-.68,1.35.43,1.49,1.47,3.89,29.17-8.37,67.53-27.03,89.99-4.6,5.54-11.32,8.61-11.97,16.52,1.97.46,2.37-1.01,3.41-2.08,16.97-17.57,33.36-36.17,54.38-49.11-.07-35.38,43.89-46.99,71.78-53.74,1.38-.33,1.84.04,1.42,1.42-5.53,18.05-25.93,42.44-43.72,49.28-12.29,4.72-24.31,2.03-34.57,8.43-14.24,8.89-27.32,24.04-38.69,36.31,6.82,2.69,8.09-6.05,11.95-10.05,18.99-19.63,50.96-6.74,73.53-2.45,1.16.29.47,1.31.03,2.01-2.75,4.35-16.7,13.95-21.64,16.36-13.41,6.54-31.14,9.11-45.24,3.5-7.37-2.94-11.36-9.47-20.93-6.66-4.55,1.34-25.58,28.93-29.52,34.48-3.29,4.64-12.58,17.34-14.17,21.83-1,2.82,5.58-.56,6-1,.9-.94,3.53-9.1,5.75-12.25,5.76-8.16,20.75-17.27,30.73-17.27h43l1.06,2.03c-13.36,19.94-41.02,38.11-65.81,34.71-10.24-1.41-16.8-10.17-26.17,1.35-8.68,10.66-28.7,55.97-32.13,69.87-.26,1.06-1.13,3.41.04,4.04,6.8-3.28,4.54-9.25,5.94-15.06,7.5-31,50.07-37.7,75.55-45.94-6.63,24.9-36.5,58.71-63.45,60.04-7.64.37-14.17-2.72-20.55,4.45-2.66,2.99-6.55,17.32-7.91,22.09-3.07,10.75-5.58,22.38-7.6,33.4-2.1,11.43-4.64,23.48-3.98,35.02,6.42-4.26,3.24-5.92,3.5-10.5,2.2-39.31,32.77-57.91,63.47-76.54.76-.46,1.75-1.99,2.53-.47-3.3,29.92-22.05,68.78-51.31,80.69-4.12,1.68-8.25,1.66-12.01,3.99-1.75,1.09-6.98,6.87-7.46,8.54-1.18,4.12-2.01,16.84-2.25,21.75-1.13,22.55,1.18,45.14,3.05,67.54,1.37,1.8,4.44-5.33,4.55-5.94.14-.79-4.39-11.57-4.45-15.45-.46-30.71,29.69-61.31,49.92-82.09.96-.98,1.3-1.88,2.98-1.52-.55,7.91.75,16.71,0,24.5Z",
+]
+
+function AwardCard() {
+  return (
+    <div style={{ position: 'relative', zIndex: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '28px 20px', overflow: 'hidden', background: '#FAF8F2', minWidth: 196 }}>
+      <svg style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '110%', height: '110%', fill: '#1E3B45', opacity: 0.07, pointerEvents: 'none' }} viewBox="0 0 892.77 688.08">
+        {LAUREL_PATHS.map((d, i) => <path key={i} d={d} />)}
+      </svg>
+      <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '0 8px' }}>
+        <div style={{ display: 'inline-block', padding: '3px 14px', background: 'linear-gradient(to right,#C8A96E,#D4AE6A)', color: '#1A0E06', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 12, fontFamily: 'var(--font-jetbrains), monospace' }}>Gold</div>
+        <h2 style={{ fontFamily: 'var(--font-playfair), serif', fontSize: 20, fontWeight: 700, letterSpacing: '-0.01em', color: '#1E3B45', margin: '0 0 8px', lineHeight: 1.1 }}>Impetus Award</h2>
+        <div style={{ background: '#B4E650', height: 1, width: 60, margin: '0 auto 10px' }} />
+        <div style={{ fontFamily: 'var(--font-playfair), serif', fontStyle: 'italic', fontSize: 11, color: '#5A6B66', marginBottom: 14, lineHeight: 1.5 }}>SIT Student Leaders<br />Awards</div>
+        <div style={{ fontSize: 9, fontStyle: 'italic', color: 'rgba(30,59,69,.5)', fontFamily: 'var(--font-playfair), serif' }}>Nan Phyu Sin Maung</div>
+        <div style={{ fontSize: 10, fontWeight: 500, color: '#1E3B45', marginTop: 5, fontFamily: 'var(--font-jetbrains), monospace', letterSpacing: '0.1em' }}>2026</div>
+      </div>
+    </div>
+  )
+}
+
+// ── Exhibit frame + plaque ─────────────────────────────────────────────────
+function Exhibit({ children, matPad, plaqueTitle, plaqueSub }: {
+  children: React.ReactNode
+  matPad: string
+  plaqueTitle: string
+  plaqueSub: string
+}) {
+  return (
+    <div
+      data-exhibit=""
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', opacity: 0, transform: 'translateY(18px)', transition: 'opacity .75s ease, transform .75s ease' }}
+    >
+      <div style={{ background: '#0D1C22', padding: 10, boxShadow: '0 32px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(200,169,110,.18)' }}>
+        <div style={{ background: '#F0EDE4', padding: matPad, display: 'flex', justifyContent: 'center' }}>
+          {children}
+        </div>
+      </div>
+      <div style={{ background: '#C8A96E', padding: '7px 22px', minWidth: 190, textAlign: 'center', boxShadow: '0 10px 24px rgba(0,0,0,.35)' }}>
+        <div style={{ fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#2A1A08', fontWeight: 500, fontFamily: 'var(--font-jetbrains), monospace' }}>{plaqueTitle}</div>
+        <div style={{ fontSize: 8, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(42,26,8,.55)', marginTop: 2, fontFamily: 'var(--font-jetbrains), monospace' }}>{plaqueSub}</div>
+      </div>
+    </div>
+  )
+}
+
+// ── Main section ───────────────────────────────────────────────────────────
 export default function CertificatesSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        const items = el.querySelectorAll<HTMLElement>('[data-exhibit]')
+        items.forEach((item, i) => {
+          setTimeout(() => {
+            item.style.opacity = '1'
+            item.style.transform = 'translateY(0)'
+          }, 120 + i * 120)
+        })
+        observer.disconnect()
+      },
+      { threshold: 0.15 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <section id="certificates" style={{ background: '#1E3B45', padding: '100px 16px' }}>
-      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+    <section
+      id="certificates"
+      ref={sectionRef}
+      style={{ background: '#F5F8ED', color: '#14170F', fontFamily: 'var(--font-jetbrains), monospace', paddingBottom: 120 }}
+    >
+      {/* ── Top content ── */}
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px' }}>
 
-        {/* ── Section header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-          style={{ marginBottom: '56px' }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
-            <div style={{ width: '22px', height: '1px', background: '#B4E650' }} />
-            <span style={{
-              fontFamily: 'var(--font-jetbrains), monospace',
-              fontSize: '8px',
-              letterSpacing: '0.36em',
-              color: '#B4E650',
-              textTransform: 'uppercase',
-            }}>Room IV</span>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(180,230,80,0.18)' }} />
-          </div>
-          <h2 style={{
-            fontFamily: 'var(--font-playfair), serif',
-            fontWeight: 400,
-            fontSize: 'clamp(32px, 4vw, 54px)',
-            lineHeight: 1.0,
-            color: '#F4EFE4',
-            margin: 0,
-            letterSpacing: '-0.01em',
-          }}>
+        <div style={{ borderTop: '1px solid rgba(20,23,15,.1)', marginTop: 24 }} />
+
+        {/* Room badge strip */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 18, fontSize: 11, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#8A8E7B', padding: '28px 0 52px' }}>
+          <span style={{ background: '#1E3B45', color: '#B4E650', padding: '5px 12px', letterSpacing: '0.16em' }}>Room IV</span>
+          <span style={{ flex: 1, height: 1, background: 'rgba(30,59,69,.18)' }} />
+          <span>4 Exhibits</span>
+        </div>
+
+        {/* Title */}
+        <div style={{ marginBottom: 72 }}>
+          <h1 style={{ fontFamily: 'var(--font-playfair), serif', fontWeight: 400, fontSize: 'clamp(48px,7vw,88px)', lineHeight: 0.9, letterSpacing: '-0.02em', margin: 0, color: '#14170F' }}>
             Credentials
-          </h2>
-        </motion.div>
-
-        {/* ── Certificate cards ── */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: '1px',
-          background: 'rgba(180,230,80,0.12)',
-          border: '1px solid rgba(180,230,80,0.12)',
-          marginBottom: '2px',
-        }}>
-          {CERTS.map((cert, i) => (
-            <CertCard key={cert.id} cert={cert} i={i} />
-          ))}
+          </h1>
         </div>
-
-        {/* ── Awards & badges ── */}
-        <div style={{
-          display: 'flex',
-          gap: '1px',
-          background: 'rgba(180,230,80,0.12)',
-          border: '1px solid rgba(180,230,80,0.12)',
-          borderTop: 'none',
-          flexWrap: 'wrap',
-        }}>
-          {AWARDS.map((award, i) => (
-            <StampAward key={award.id} award={award} i={i} />
-          ))}
-        </div>
-
       </div>
+
+      {/* ── Gallery wall ── */}
+      <div style={{ background: 'linear-gradient(175deg,#1E3B45 0%,#152D35 60%,#0F2028 100%)', padding: '56px 60px 72px', position: 'relative', overflow: 'hidden' }}>
+
+        {/* Grid lines */}
+        <div style={{ position: 'absolute', inset: 0, display: 'grid', gridTemplateColumns: 'repeat(8,1fr)', pointerEvents: 'none' }}>
+          {Array.from({ length: 7 }).map((_, i) => (
+            <div key={i} style={{ borderLeft: '1px solid rgba(180,230,80,.04)' }} />
+          ))}
+          <div style={{ borderLeft: '1px solid rgba(180,230,80,.04)', borderRight: '1px solid rgba(180,230,80,.04)' }} />
+        </div>
+
+        {/* Wall label */}
+        <div style={{ textAlign: 'center', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(180,230,80,.35)', marginBottom: 52, position: 'relative', fontFamily: 'var(--font-jetbrains), monospace' }}>
+          Hall of Credentials · Room IV
+        </div>
+
+        {/* Exhibit grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '52px 48px', alignItems: 'start', position: 'relative', zIndex: 1, maxWidth: 720, margin: '0 auto' }}>
+
+          <Exhibit matPad="22px 32px" plaqueTitle="AWS Cloud Practitioner" plaqueSub="Amazon Web Services · Sep 2026">
+            <StampSVG uid="1" title="AWS CLOUD PRACTITIONER" subtitle="Amazon Web Services" recipient="NPS Maung" date="Sep 2026" />
+          </Exhibit>
+
+          <Exhibit matPad="14px 12px" plaqueTitle="IBM Data Engineering" plaqueSub="IBM · Professional Certificate · Oct 2026">
+            <BadgeCard />
+          </Exhibit>
+
+          <Exhibit matPad="22px 32px" plaqueTitle="AWS Solutions Architect" plaqueSub="Amazon Web Services · Oct 2026">
+            <StampSVG uid="2" title="AWS SOLUTIONS ARCHITECT" subtitle="Associate · AWS" recipient="NPS Maung" date="Oct 2026" />
+          </Exhibit>
+
+          <Exhibit matPad="14px 12px" plaqueTitle="Impetus Award" plaqueSub="SIT Student Leaders Awards · 2026">
+            <AwardCard />
+          </Exhibit>
+
+        </div>
+
+        {/* Floor shadow */}
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 40, background: 'linear-gradient(to bottom,transparent,rgba(0,0,0,.18))', pointerEvents: 'none' }} />
+      </div>
+
+      {/* Bottom divider */}
+      <div style={{ borderTop: '1px solid rgba(20,23,15,0.1)', margin: '0' }} />
     </section>
   )
 }
