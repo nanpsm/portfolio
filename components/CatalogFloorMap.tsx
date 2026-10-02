@@ -121,15 +121,14 @@ function FloorMapPage({ hovered, setHovered }: {
             { x: 80, y: 72, mono: 'ROOM I', serif: 'Projects', sY: 90 },
             { x: 80, y: 232, mono: 'ROOM II', serif: 'Skills', sY: 250 },
             { x: 80, y: 392, mono: 'ROOM III', serif: 'Education', sY: 410 },
-            { x: 508, y: 72, mono: 'ROOM IV', serif: 'Certificates', sY: 90 },
-            { x: 508, y: 232, mono: 'ROOM V', serif: 'Gift Shop', sY: 250 },
+            { x: 508, y: 72, mono: 'ROOM IV', serif: 'Credentials', sY: 90 },
+            { x: 508, y: 232, mono: 'ROOM V', serif: 'Contact',   sY: 250 },
           ].map(({ x, y, mono, serif, sY }) => (
             <g key={mono}>
               <text x={x} y={y} fontFamily="monospace" fontSize="8.5" letterSpacing="2.5" fill="#8A8E7B">{mono}</text>
               <text x={x} y={sY} fontFamily="Georgia,serif" fontSize="16" fontStyle="italic" fill="#1E3B45">{serif}</text>
             </g>
           ))}
-          <text x="508" y="266" fontFamily="monospace" fontSize="8" letterSpacing="1.5" fill="#8A8E7B">(Contact)</text>
           <text x="400" y="290" fontFamily="monospace" fontSize="9" letterSpacing="4" fill="rgba(30,59,69,0.42)" textAnchor="middle" dominantBaseline="middle" transform="rotate(-90,400,290)">GRAND HALL</text>
           <text x="400" y="573" fontFamily="monospace" fontSize="8" letterSpacing="2.5" fill="rgba(30,59,69,0.48)" textAnchor="middle">ENTRY</text>
           <line x1="382" y1="606" x2="382" y2="616" stroke="#1E3B45" strokeWidth="1.5" />

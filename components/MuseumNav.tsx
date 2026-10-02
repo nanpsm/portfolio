@@ -8,8 +8,8 @@ const ROOMS = [
   { name: 'Projects',     room: 'Room I',            id: 'projects' },
   { name: 'Skills',       room: 'Room II',           id: 'skills' },
   { name: 'Education',    room: 'Room III',          id: 'education' },
-  { name: 'Certificates', room: 'Room IV',           id: 'certificates' },
-  { name: 'Gift Shop',    room: 'Room V · Contact',  id: 'contact' },
+  { name: 'Credentials', room: 'Room IV', id: 'certificates' },
+  { name: 'Contact',      room: 'Room V',            id: 'contact' },
 ]
 
 const MARGIN = 32
@@ -149,8 +149,8 @@ export default function MuseumNav() {
     { id: 'projects',     label: 'ROOM I',   name: 'Projects',     x: 20,  y: 10,  w: 118, h: 64 },
     { id: 'skills',       label: 'ROOM II',  name: 'Skills',       x: 20,  y: 74,  w: 118, h: 64 },
     { id: 'education',    label: 'ROOM III', name: 'Education',    x: 20,  y: 138, w: 118, h: 64 },
-    { id: 'certificates', label: 'ROOM IV',  name: 'Certificates', x: 262, y: 10,  w: 118, h: 64 },
-    { id: 'contact',      label: 'ROOM V',   name: 'Gift Shop',    x: 262, y: 74,  w: 118, h: 64 },
+    { id: 'certificates', label: 'ROOM IV',  name: 'Credentials',  x: 262, y: 10,  w: 118, h: 64 },
+    { id: 'contact',      label: 'ROOM V',   name: 'Contact',      x: 262, y: 74,  w: 118, h: 64 },
   ]
 
   const navigate = (id: string) => {

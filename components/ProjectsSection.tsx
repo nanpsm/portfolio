@@ -2,13 +2,20 @@
 
 import { useRef, useState, useEffect } from 'react'
 import BoxCarousel, { type BoxCarouselRef, type CarouselItem } from '@/components/ui/box-carousel'
+import { HackathonBadge, type HackathonBadgeProps } from '@/components/ui/hackathon-badge'
 
 // ── Roman numeral helpers ──────────────────────────────────────────────────
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']
 function toRoman(n: number) { return ROMAN[n] ?? String(n + 1) }
 
 // ── Project data ───────────────────────────────────────────────────────────
-const PROJECTS = [
+type Project = {
+  num: string; title: string; role: string; year: string;
+  desc: string; stack: string[]; github: string; url: string; image: string;
+  awards?: HackathonBadgeProps[];
+}
+
+const PROJECTS: Project[] = [
   {
     num: 'I', title: 'FilmTwin', role: 'Personal Project · ML', year: '2025',
     desc: 'Film recommendation engine that matches your taste profile against 323,733 MovieLens viewers using Apache Spark ALS, 19-dimensional genre embeddings, and pgvector HNSW search.',
@@ -30,8 +37,12 @@ const PROJECTS = [
     desc: 'AI emotion companion where 8 character agents — Cheer, Fear, Buzzy, and more — debate and support you through how you feel. Each character is a live Azure AI Foundry agent, not a scripted response. Built in 24 hours.',
     stack: ['Next.js', 'Azure AI', 'Prisma', 'Auth.js'],
     github: 'https://github.com/nanpsm/emochi',
-    url: '',
+    url: 'https://emochi-two.vercel.app/',
     image: '',
+    awards: [
+      { hackathon: 'HACKEXPERIENCE 2026', award: 'Best Use of Microsoft Stack', place: 1 },
+      { hackathon: 'HACKEXPERIENCE 2026', award: 'Community Choice' },
+    ],
   },
   {
     num: 'IV', title: 'Crimson Midnight', role: 'ITCAMP · 1st Place', year: '2024',
@@ -40,6 +51,10 @@ const PROJECTS = [
     github: 'https://github.com/moecrosoft/crimson_midnight',
     url: 'https://crimsonmidnight.vercel.app/',
     image: '',
+    awards: [
+      { hackathon: 'ITCAMP 2026', award: '1st Place · Tech Innovation (AI)', place: 1 },
+      { hackathon: 'ITCAMP 2026', award: 'Community Choice' },
+    ],
   },
   {
     num: 'V', title: 'Oops Too Slow', role: 'Hackathon · 24 hrs', year: '2024',
@@ -372,6 +387,15 @@ export default function ProjectsSection() {
                 >{tag}</span>
               ))}
             </div>
+
+            {/* award badges */}
+            {currentProject.awards && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '16px' }}>
+                {currentProject.awards.map((a, i) => (
+                  <HackathonBadge key={i} {...a} />
+                ))}
+              </div>
+            )}
 
             {/* links */}
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
