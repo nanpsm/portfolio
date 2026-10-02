@@ -9,7 +9,7 @@ const ROOMS = [
   { name: 'Skills',       room: 'Room II',           id: 'skills' },
   { name: 'Education',    room: 'Room III',          id: 'education' },
   { name: 'Credentials', room: 'Room IV', id: 'certificates' },
-  { name: 'Contact',      room: 'Room V',            id: 'contact' },
+  { name: 'The Gift Shop (Contact)', room: 'Room V', id: 'contact' },
 ]
 
 const MARGIN = 32
@@ -146,11 +146,11 @@ export default function MuseumNav() {
       }
 
   const mapRooms = [
-    { id: 'projects',     label: 'ROOM I',   name: 'Projects',     x: 20,  y: 10,  w: 118, h: 64 },
-    { id: 'skills',       label: 'ROOM II',  name: 'Skills',       x: 20,  y: 74,  w: 118, h: 64 },
-    { id: 'education',    label: 'ROOM III', name: 'Education',    x: 20,  y: 138, w: 118, h: 64 },
-    { id: 'certificates', label: 'ROOM IV',  name: 'Credentials',  x: 262, y: 10,  w: 118, h: 64 },
-    { id: 'contact',      label: 'ROOM V',   name: 'Contact',      x: 262, y: 74,  w: 118, h: 64 },
+    { id: 'projects',     label: 'ROOM I',   name: 'Projects',    short: 'Projects',    x: 20,  y: 10,  w: 118, h: 64 },
+    { id: 'skills',       label: 'ROOM II',  name: 'Skills',      short: 'Skills',      x: 20,  y: 74,  w: 118, h: 64 },
+    { id: 'education',    label: 'ROOM III', name: 'Education',   short: 'Education',   x: 20,  y: 138, w: 118, h: 64 },
+    { id: 'certificates', label: 'ROOM IV',  name: 'Credentials', short: 'Credentials', x: 262, y: 10,  w: 118, h: 64 },
+    { id: 'contact',      label: 'ROOM V',   name: 'The Gift Shop (Contact)', short: 'Gift Shop', x: 262, y: 74,  w: 118, h: 64 },
   ]
 
   const navigate = (id: string) => {
@@ -290,7 +290,7 @@ export default function MuseumNav() {
                   onClick={() => navigate(r.id)}
                 />
                 <text x={r.x + 8} y={r.y + 16} fontFamily="monospace" fontSize="6" letterSpacing="1.5" fill="rgba(180,230,80,0.5)" style={{ pointerEvents: 'none' }}>{r.label}</text>
-                <text x={r.x + 8} y={r.y + 34} fontFamily="Georgia,serif" fontSize="11" fontStyle="italic" fill="rgba(244,239,228,0.8)" style={{ pointerEvents: 'none' }}>{r.name}</text>
+                <text x={r.x + 8} y={r.y + 34} fontFamily="Georgia,serif" fontSize="11" fontStyle="italic" fill="rgba(244,239,228,0.8)" style={{ pointerEvents: 'none' }}>{r.short}</text>
               </g>
             ))}
           </svg>

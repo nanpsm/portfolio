@@ -8,7 +8,7 @@ const ROOM_DATA: Record<string, { name: string; note: string }> = {
   II:  { name: 'Skills',       note: 'Tools, technologies & disciplines' },
   III: { name: 'Education',    note: 'Academic background & training' },
   IV:  { name: 'Credentials', note: 'Certifications & accomplishments' },
-  V:   { name: 'Contact',     note: 'Contact · Collaboration · Opportunities' },
+  V:   { name: 'The Gift Shop (Contact)', note: 'Contact · Collaboration · Opportunities' },
 }
 
 function FloorMapSVG() {
@@ -172,14 +172,14 @@ function FloorMapSVG() {
             { x: 80,  y: 232, mono: 'ROOM II',  serif: 'Skills',       sY: 250 },
             { x: 80,  y: 392, mono: 'ROOM III', serif: 'Education',    sY: 410 },
             { x: 508, y: 72,  mono: 'ROOM IV', serif: 'Credentials', sY: 90  },
-            { x: 508, y: 232, mono: 'ROOM V',  serif: 'Contact',      sY: 250 },
+            { x: 508, y: 232, mono: 'ROOM V',  serif: 'Gift Shop',    sY: 250 },
           ].map(({ x, y, mono, serif, sY }) => (
             <g key={mono}>
               <text x={x} y={y}  fontFamily="monospace" fontSize="8.5" letterSpacing="2.5" fill="#8A8E7B">{mono}</text>
               <text x={x} y={sY} fontFamily="Georgia,serif" fontSize="16" fontStyle="italic" fill="#1E3B45">{serif}</text>
             </g>
           ))}
-          <text x="508" y="266" fontFamily="monospace" fontSize="8" letterSpacing="1.5" fill="#8A8E7B">(Contact)</text>
+          <text x="508" y="266" fontFamily="monospace" fontSize="8" letterSpacing="1.5" fill="#8A8E7B">(Contact · Collaboration)</text>
 
           {/* Hall label */}
           <text x="400" y="290" fontFamily="monospace" fontSize="9" letterSpacing="4" fill="rgba(30,59,69,0.42)" textAnchor="middle" dominantBaseline="middle" transform="rotate(-90,400,290)">GRAND HALL</text>

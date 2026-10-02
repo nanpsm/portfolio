@@ -122,7 +122,7 @@ function FloorMapPage({ hovered, setHovered }: {
             { x: 80, y: 232, mono: 'ROOM II', serif: 'Skills', sY: 250 },
             { x: 80, y: 392, mono: 'ROOM III', serif: 'Education', sY: 410 },
             { x: 508, y: 72, mono: 'ROOM IV', serif: 'Credentials', sY: 90 },
-            { x: 508, y: 232, mono: 'ROOM V', serif: 'Contact',   sY: 250 },
+            { x: 508, y: 232, mono: 'ROOM V', serif: 'Gift Shop', sY: 250 },
           ].map(({ x, y, mono, serif, sY }) => (
             <g key={mono}>
               <text x={x} y={y} fontFamily="monospace" fontSize="8.5" letterSpacing="2.5" fill="#8A8E7B">{mono}</text>
