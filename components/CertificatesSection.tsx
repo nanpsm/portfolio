@@ -208,8 +208,6 @@ export default function CertificatesSection() {
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 40, background: 'linear-gradient(to bottom,transparent,rgba(0,0,0,.18))', pointerEvents: 'none' }} />
       </div>
 
-      {/* Bottom divider */}
-      <div style={{ borderTop: '1px solid rgba(20,23,15,0.1)', margin: '0' }} />
     </section>
   )
 }
