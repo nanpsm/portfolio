@@ -1,7 +1,8 @@
 'use client'
 
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useState } from 'react'
 import HTMLFlipBook from 'react-pageflip'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface Skill {
@@ -14,20 +15,21 @@ interface SkillPageProps {
   subtitle: string
   skills: Skill[]
   since: string
+  compact?: boolean
 }
 
 // ── Skill page — forwardRef required for react-pageflip child refs ─────────
 
 const SkillPage = forwardRef<HTMLDivElement, SkillPageProps>(
-  function SkillPage({ panel, title, subtitle, skills, since }, ref) {
+  function SkillPage({ panel, title, subtitle, skills, since, compact }, ref) {
     return (
       <div ref={ref} className="page page-face">
-        <div style={{ padding: '36px 36px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: compact ? '24px 22px' : '36px 36px', height: '100%', display: 'flex', flexDirection: 'column' }}>
           <div style={{ fontSize: '8px', letterSpacing: '0.24em', textTransform: 'uppercase', color: '#8A8E7B', marginBottom: '4px' }}>
             Room II · Panel {panel}
           </div>
           <div style={{ width: '24px', height: '2px', background: '#B4E650', marginBottom: '16px' }} />
-          <h3 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 400, fontSize: '26px', fontStyle: 'italic', color: '#1E3B45', margin: '0 0 6px' }}>
+          <h3 style={{ fontFamily: 'Playfair Display, serif', fontWeight: 400, fontSize: compact ? '20px' : '26px', fontStyle: 'italic', color: '#1E3B45', margin: '0 0 6px' }}>
             {title}
           </h3>
           <div style={{ fontSize: '9px', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#8A8E7B', marginBottom: '20px' }}>
@@ -117,11 +119,100 @@ const pages: SkillPageProps[] = [
   },
 ]
 
-const PAGE_W = 370
-const PAGE_H = 500
+// ── Mobile accordion view ──────────────────────────────────────────────────
+function MobileSkillsView() {
+  const [active, setActive] = useState(0)
+  return (
+    <div style={{ width: '100%', maxWidth: 340 }}>
+      {/* Book-style header card */}
+      <div style={{
+        background: 'linear-gradient(140deg, #1E3B45 0%, #122730 100%)',
+        padding: '28px 24px 24px',
+        marginBottom: 16,
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        <div style={{ position: 'absolute', right: -12, bottom: -24, fontFamily: 'Playfair Display, serif', fontSize: '140px', color: 'rgba(180,230,80,0.05)', pointerEvents: 'none', userSelect: 'none', lineHeight: 1 }}>II</div>
+        <div style={{ fontSize: '8px', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(180,230,80,0.75)', marginBottom: 14 }}>
+          Museum of Personal Practice
+        </div>
+        <div style={{ width: 28, height: 2, background: '#B4E650', marginBottom: 12 }} />
+        <div style={{ fontFamily: 'Playfair Display, serif', fontWeight: 400, fontSize: '32px', fontStyle: 'italic', lineHeight: 1.05, color: '#F4EFE4', position: 'relative', zIndex: 1 }}>
+          Skills<br />Compendium
+        </div>
+      </div>
+
+      {/* Accordion panels */}
+      {pages.map((page, i) => {
+        const open = active === i
+        return (
+          <div key={page.panel} style={{ marginBottom: 6 }}>
+            <button
+              onClick={() => setActive(open ? -1 : i)}
+              style={{
+                width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer',
+                background: open ? '#1E3B45' : '#F0EDE4',
+                padding: '14px 18px',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                transition: 'background 0.2s',
+              }}
+            >
+              <div>
+                <div style={{ fontSize: '8px', letterSpacing: '0.2em', textTransform: 'uppercase', color: open ? 'rgba(180,230,80,0.7)' : '#8A8E7B', marginBottom: 3 }}>
+                  Panel {page.panel}
+                </div>
+                <div style={{ fontFamily: 'Playfair Display, serif', fontStyle: 'italic', fontSize: '17px', color: open ? '#F4EFE4' : '#1E3B45' }}>
+                  {page.title}
+                </div>
+                <div style={{ fontSize: '9px', letterSpacing: '0.14em', textTransform: 'uppercase', color: open ? 'rgba(244,239,228,0.5)' : '#8A8E7B', marginTop: 2 }}>
+                  {page.subtitle}
+                </div>
+              </div>
+              <div style={{ fontSize: 14, color: open ? '#B4E650' : '#1E3B45', flexShrink: 0, marginLeft: 12 }}>
+                {open ? '−' : '+'}
+              </div>
+            </button>
+
+            {open && (
+              <div style={{ background: '#FAF8F2', padding: '16px 18px', borderLeft: '2px solid #B4E650' }}>
+                {page.skills.map((skill, si) => (
+                  <div key={skill.name} style={{
+                    display: 'flex', alignItems: 'baseline',
+                    padding: '8px 0',
+                    borderBottom: si < page.skills.length - 1 ? '1px solid rgba(30,59,69,0.08)' : 'none',
+                  }}>
+                    <span style={{ fontSize: '11px', letterSpacing: '0.04em', color: '#1E3B45', fontFamily: 'JetBrains Mono, monospace' }}>
+                      {skill.name}
+                    </span>
+                  </div>
+                ))}
+                <div style={{ paddingTop: 12, marginTop: 4, borderTop: '1px solid rgba(30,59,69,0.1)', fontSize: '8px', letterSpacing: '0.14em', textTransform: 'uppercase', color: '#8A8E7B' }}>
+                  {page.since}
+                </div>
+              </div>
+            )}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 // ── Main export ────────────────────────────────────────────────────────────
 export default function SkillsBook() {
+  const isMobile = useIsMobile()
+
+  if (isMobile) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+        <MobileSkillsView />
+      </div>
+    )
+  }
+
+  const PAGE_W = 370
+  const PAGE_H = 500
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0' }}>
       {/* Book */}
