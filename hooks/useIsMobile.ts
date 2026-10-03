@@ -1,9 +1,9 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useLayoutEffect } from 'react'
 
 export function useIsMobile(breakpoint = 640) {
   const [mobile, setMobile] = useState(false)
-  useEffect(() => {
+  useLayoutEffect(() => {
     const check = () => setMobile(window.innerWidth < breakpoint)
     check()
     window.addEventListener('resize', check)

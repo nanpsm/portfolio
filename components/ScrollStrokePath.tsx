@@ -1,156 +1,135 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useIsMobile } from '@/hooks/useIsMobile'
-
-// Vertical tear — mostly flat sections, a few small bumps, 2-3 proper spikes
-const TEAR: [number, number][] = [
-  [80,   0],
-  [80.5, 3],  [82,   6],  [80,   9],   // small spike
-  [80,  12],  [80,  15],               // flat
-  [79,  18],  [80,  21],               // shallow dip
-  [80,  25],  [83,  28],  [80,  31],   // proper spike
-  [80,  34],  [80.5,37],  [80,  40],   // nearly flat
-  [78.5,43],  [80,  46],               // shallow left dip
-  [80,  49],  [80,  52],               // flat
-  [82,  56],  [80,  59],               // small spike
-  [79.5,62],  [80,  65],               // tiny dip
-  [80,  68],  [80,  71],               // flat
-  [83,  75],  [80,  78],               // proper spike
-  [80,  81],  [79,  84],  [80,  87],   // shallow dip
-  [80,  90],  [81.5,93],  [80,  96],   // small bump
-  [80, 100],
-]
-
-// Main body — right edge follows the jagged tear line (top→bottom)
-const LEFT_CLIP = `polygon(
-  0% 0%, 80% 0%,
-  ${TEAR.map(([x, y]) => `${x}% ${y}%`).join(', ')},
-  0% 100%
-)`
-
-// Stub — left edge follows the same tear line (bottom→top) to interlock perfectly
-const RIGHT_CLIP = `polygon(
-  80% 0%, 100% 0%, 100% 100%, 80% 100%,
-  ${[...TEAR].reverse().map(([x, y]) => `${x}% ${y}%`).join(', ')}
-)`
-
-function TicketContent() {
-  return (
-    <div className="ticket-grid" style={{
-      display: 'grid',
-      gridTemplateColumns: '1fr 148px',
-      borderRadius: '12px',
-      overflow: 'hidden',
-      position: 'relative',
-    }}>
-      {/* ── Body ── */}
-      <div className="ticket-body" style={{
-        background: 'linear-gradient(135deg, #E6EDDC 0%, #D8E5C8 100%)',
-        padding: '36px 40px 32px 44px',
-        boxShadow: 'inset 0 0 0 1px rgba(30,59,69,0.16)',
-      }}>
-        {/* Header row */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '26px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{ width: '8px', height: '8px', background: '#1E3B45', flexShrink: 0 }} />
-            <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '8px', letterSpacing: '0.26em', color: '#5A6B66', textTransform: 'uppercase' }}>
-              The Collection Presents
-            </span>
-          </div>
-          <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '8px', letterSpacing: '0.26em', color: '#1E3B45', textTransform: 'uppercase' }}>
-            Admit One
-          </span>
-        </div>
-
-        {/* Name */}
-        <h2 style={{ fontFamily: 'var(--font-display), serif', fontWeight: 400, fontSize: 'clamp(40px, 6vw, 68px)', lineHeight: 0.92, letterSpacing: '-0.01em', color: '#1E3B45', margin: '0 0 22px' }}>
-          Nan Phyu Sin Maung
-        </h2>
-
-        {/* Two-part bar */}
-        <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginBottom: '22px' }}>
-          <div style={{ width: '36px', height: '2px', background: '#1E3B45' }} />
-          <div style={{ width: '14px', height: '2px', background: '#AADD00' }} />
-        </div>
-
-        {/* Role */}
-        <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '11px', letterSpacing: '0.14em', color: '#1E3B45', margin: '0 0 6px', fontWeight: 500 }}>
-          Full Stack Engineer · Data Engineer
-        </p>
-        <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '9px', letterSpacing: '0.1em', color: '#6E8388', margin: '0 0 20px' }}>
-          Singapore-based · Available 2026
-        </p>
-
-        {/* Dashed divider */}
-        <div style={{ borderTop: '1px dashed rgba(30,59,69,0.22)', marginBottom: '18px' }} />
-
-        {/* Footer row */}
-        <div style={{ display: 'flex', gap: '48px' }}>
-          <div>
-            <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '7.5px', letterSpacing: '0.22em', color: '#6E8388', textTransform: 'uppercase', margin: '0 0 5px' }}>Ticket No.</p>
-            <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '11px', letterSpacing: '0.1em', color: '#1E3B45', margin: 0 }}>NPSM · 0001</p>
-          </div>
-          <div>
-            <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '7.5px', letterSpacing: '0.22em', color: '#6E8388', textTransform: 'uppercase', margin: '0 0 5px' }}>Season</p>
-            <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '11px', letterSpacing: '0.1em', color: '#1E3B45', margin: 0 }}>2026</p>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Stub ── */}
-      <div className="ticket-stub" style={{
-        background: 'linear-gradient(180deg, #1E3B45 0%, #122730 100%)',
-        borderLeft: '1.5px dashed rgba(170,221,0,0.3)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '22px 0',
-      }}>
-        <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '7.5px', letterSpacing: '0.22em', color: 'rgba(170,221,0,0.85)', textTransform: 'uppercase', margin: 0 }}>
-          No. 0001
-        </p>
-        <p style={{ fontFamily: 'var(--font-display), serif', fontWeight: 400, fontSize: 'clamp(20px, 2.6vw, 30px)', letterSpacing: '0.1em', color: '#AADD00', writingMode: 'vertical-rl', transform: 'rotate(180deg)', margin: 0, lineHeight: 1 }}>
-          ENTRY NOW
-        </p>
-        <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '9px', letterSpacing: '0.18em', color: 'rgba(170,221,0,0.85)', margin: 0 }}>
-          2026
-        </p>
-      </div>
-    </div>
-  )
-}
+import TearTicket from '@/components/ui/TearTicket'
 
 export default function ScrollStrokePath() {
   const isMobile = useIsMobile()
   const ref = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: ref })
+  const [torn, setTorn] = useState(false)
 
-  // Stub flies right — rotates from center so it looks like it's flung away
-  const stubX      = useTransform(scrollYProgress, [0.80, 0.92], [0, 480])
-  const stubY      = useTransform(scrollYProgress, [0.80, 0.92], [0, -24])
-  const stubRotate = useTransform(scrollYProgress, [0.80, 0.92], [0, 14])
-  const stubOpa    = useTransform(scrollYProgress, [0.80, 0.90], [1, 0])
+  // Mobile stub: horizontal strip at the bottom
+  const mobileStub = (
+    <div style={{
+      width: '100%', height: '100%',
+      background: '#1E3B45',
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '0 20px',
+    }}>
+      <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '7px', letterSpacing: '0.22em', color: 'rgba(180,230,80,0.8)', textTransform: 'uppercase', margin: 0 }}>
+        No. 0001
+      </p>
+      <p style={{ fontFamily: 'var(--font-display), serif', fontWeight: 400, fontSize: '14px', letterSpacing: '0.18em', color: '#B4E650', margin: 0 }}>
+        ENTRY NOW
+      </p>
+      <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '9px', letterSpacing: '0.18em', color: 'rgba(180,230,80,0.8)', margin: 0 }}>
+        2026
+      </p>
+    </div>
+  )
 
-  // Body stays — tiny recoil left like it snapped back when paper tore
-  const bodyX      = useTransform(scrollYProgress, [0.80, 0.92], [0, -80])
+  // Desktop stub: vertical strip on the right
+  const desktopStub = (
+    <div style={{
+      width: '100%', height: '100%',
+      background: '#1E3B45',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '22px 0',
+    }}>
+      <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '7.5px', letterSpacing: '0.22em', color: 'rgba(180,230,80,0.85)', textTransform: 'uppercase', margin: 0 }}>
+        No. 0001
+      </p>
+      <p style={{ fontFamily: 'var(--font-display), serif', fontWeight: 400, fontSize: '22px', letterSpacing: '0.1em', color: '#B4E650', writingMode: 'vertical-rl', transform: 'rotate(180deg)', margin: 0, lineHeight: 1 }}>
+        ENTRY NOW
+      </p>
+      <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '9px', letterSpacing: '0.18em', color: 'rgba(180,230,80,0.85)', margin: 0 }}>
+        2026
+      </p>
+    </div>
+  )
 
-  const notchOpa   = useTransform(scrollYProgress, [0.70, 0.77], [1, 0])
+  const bodyContent = (mobile: boolean) => (
+    <div style={{
+      width: '100%', height: '100%',
+      padding: mobile ? '16px 18px 12px' : '28px 32px 24px 36px',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+    }}>
+      {/* Header row */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: mobile ? '5px' : '8px' }}>
+          <div style={{ width: mobile ? '5px' : '8px', height: mobile ? '5px' : '8px', background: '#1E3B45', flexShrink: 0 }} />
+          <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: mobile ? '6px' : '8px', letterSpacing: '0.24em', color: '#5A6B66', textTransform: 'uppercase' }}>
+            The Collection Presents
+          </span>
+        </div>
+        <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: mobile ? '6px' : '8px', letterSpacing: '0.24em', color: '#1E3B45', textTransform: 'uppercase' }}>
+          Admit One
+        </span>
+      </div>
+
+      {/* Name */}
+      <h2 style={{
+        fontFamily: 'var(--font-display), serif',
+        fontWeight: 400,
+        fontSize: mobile ? '26px' : '38px',
+        lineHeight: 1.05,
+        letterSpacing: '-0.01em',
+        color: '#1E3B45',
+        margin: 0,
+        whiteSpace: mobile ? 'normal' : 'nowrap',
+      }}>
+        Nan Phyu Sin Maung
+      </h2>
+
+      {/* Bar */}
+      <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+        <div style={{ width: mobile ? '24px' : '36px', height: '2px', background: '#1E3B45' }} />
+        <div style={{ width: mobile ? '8px' : '14px', height: '2px', background: '#B4E650' }} />
+      </div>
+
+      {/* Role */}
+      <div>
+        <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: mobile ? '8px' : '11px', letterSpacing: '0.13em', color: '#1E3B45', margin: '0 0 3px', fontWeight: 500 }}>
+          Full Stack Engineer · Data Engineer
+        </p>
+        <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: mobile ? '7px' : '9px', letterSpacing: '0.1em', color: '#6E8388', margin: 0 }}>
+          Singapore-based · Available 2026
+        </p>
+      </div>
+
+      {/* Footer */}
+      <div>
+        <div style={{ borderTop: '1px dashed rgba(30,59,69,0.22)', marginBottom: mobile ? '8px' : '14px' }} />
+        <div style={{ display: 'flex', gap: mobile ? '24px' : '48px' }}>
+          <div>
+            <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: mobile ? '5.5px' : '7.5px', letterSpacing: '0.22em', color: '#6E8388', textTransform: 'uppercase', margin: '0 0 3px' }}>Ticket No.</p>
+            <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: mobile ? '8.5px' : '11px', letterSpacing: '0.1em', color: '#1E3B45', margin: 0 }}>NPSM · 0001</p>
+          </div>
+          <div>
+            <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: mobile ? '5.5px' : '7.5px', letterSpacing: '0.22em', color: '#6E8388', textTransform: 'uppercase', margin: '0 0 3px' }}>Season</p>
+            <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: mobile ? '8.5px' : '11px', letterSpacing: '0.1em', color: '#1E3B45', margin: 0 }}>2026</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 
   return (
     <section
       ref={ref}
       className="mx-auto flex h-[300vh] w-full flex-col items-center overflow-hidden bg-[#F5F8ED] px-4 text-[#1C1814]"
     >
-      <style>{`
-        @media (max-width: 640px) {
-          .ticket-grid { grid-template-columns: 1fr 90px !important; }
-          .ticket-body { padding: 20px 16px 18px 20px !important; }
-          .ticket-stub { padding: 14px 0 !important; }
-        }
-      `}</style>
       {/* ── Hero ── */}
       <div className="mt-40 relative flex w-fit flex-col items-center justify-center gap-5 text-center">
         <LinePath className="hidden sm:block absolute -right-[40%] top-0" scrollYProgress={scrollYProgress} />
@@ -170,54 +149,110 @@ export default function ScrollStrokePath() {
 
       {/* ── Ticket ── */}
       <div className="w-full translate-y-[120vh] pt-12 pb-16">
-        <div style={{ maxWidth: '860px', margin: '0 auto', padding: isMobile ? '0 16px' : '0 32px' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', padding: '0 0 0 0' }}>
           <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '9px', letterSpacing: '0.26em', color: '#8A9A7A', textTransform: 'uppercase', marginBottom: '28px', textAlign: 'center' }}>
             The Collection · Portfolio Exhibition · 2026
           </p>
 
-          <div style={{ position: 'relative' }}>
-
-            {/* MAIN BODY — stays, jagged right edge exposed after tear */}
-            <motion.div
-              style={{
-                clipPath: LEFT_CLIP,
-                filter: 'drop-shadow(0 8px 40px rgba(22,48,58,0.18)) drop-shadow(0 2px 8px rgba(22,48,58,0.10))',
-                x: bodyX,
-                position: 'relative',
-                zIndex: 2,
-              }}
+          {/* Mobile ticket — vertical, stub at bottom, shown below sm breakpoint */}
+          <div className="flex justify-center sm:hidden">
+            <TearTicket
+              width={350}
+              height={260}
+              stubSize={72}
+              background="#E8EDDC"
+              stubBackground="#1E3B45"
+              color="#1E3B45"
+              borderColor="rgba(30,59,69,0.18)"
+              borderWidth={1}
+              border
+              radius={12}
+              holes={12}
+              holeSize={5}
+              notch={3}
+              roughness={0.6}
+              rotate={0}
+              tilt={false}
+              orientation="vertical"
+              stub={mobileStub}
+              onTear={() => setTorn(true)}
             >
-              <TicketContent />
-            </motion.div>
-
-            {/* STUB — flies right like the reference images */}
-            <motion.div
-              style={{
-                clipPath: RIGHT_CLIP,
-                filter: 'drop-shadow(8px 4px 28px rgba(22,48,58,0.22)) drop-shadow(0 2px 8px rgba(22,48,58,0.12))',
-                x: stubX,
-                y: stubY,
-                rotate: stubRotate,
-                opacity: stubOpa,
-                transformOrigin: '50% 50%',
-                position: 'absolute',
-                inset: 0,
-                zIndex: 3,
-              }}
-            >
-              <TicketContent />
-            </motion.div>
-
-            {/* Punch-hole notches */}
-            <motion.div style={{ opacity: notchOpa, pointerEvents: 'none' }}>
-              <div style={{ position: 'absolute', left: 'calc(100% - 148px)', top: '-14px', width: '28px', height: '28px', borderRadius: '50%', background: '#F5F8ED', boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.15)', zIndex: 4, transform: 'translateX(-50%)' }} />
-              <div style={{ position: 'absolute', left: 'calc(100% - 148px)', bottom: '-14px', width: '28px', height: '28px', borderRadius: '50%', background: '#F5F8ED', boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.15)', zIndex: 4, transform: 'translateX(-50%)' }} />
-            </motion.div>
-
+              {bodyContent(true)}
+            </TearTicket>
           </div>
 
-          <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '9px', letterSpacing: '0.18em', color: '#6E8388', textTransform: 'uppercase', marginTop: '20px', textAlign: 'center' }}>
-            Admission free <span style={{ color: '#AADD00' }}>·</span> Non-transferable <span style={{ color: '#AADD00' }}>·</span> Open all hours
+          {/* Desktop ticket — horizontal, stub on right, shown at sm and above */}
+          <div className="hidden sm:flex justify-center" style={{ padding: '0 32px' }}>
+            <TearTicket
+              width={700}
+              height={250}
+              stubSize={145}
+              background="#E8EDDC"
+              stubBackground="#1E3B45"
+              color="#1E3B45"
+              borderColor="rgba(30,59,69,0.18)"
+              borderWidth={1}
+              border
+              radius={12}
+              holes={14}
+              holeSize={5}
+              notch={3}
+              roughness={0.6}
+              rotate={1}
+              tilt
+              tiltMax={8}
+              tiltReach={260}
+              parallax={6}
+              orientation="horizontal"
+              stub={desktopStub}
+              onTear={() => setTorn(true)}
+            >
+              {bodyContent(false)}
+            </TearTicket>
+          </div>
+
+          {/* ── Tear hint ── */}
+          <motion.div
+            animate={{ opacity: torn ? 0 : 1 }}
+            transition={{ duration: 0.5 }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              marginTop: '14px',
+              pointerEvents: 'none',
+            }}
+          >
+            {/* Mobile hint (shown below sm) */}
+            <div className="flex items-center gap-2 sm:hidden w-full justify-center">
+              <motion.span
+                animate={{ y: [0, 4, 0] }}
+                transition={{ repeat: Infinity, duration: 1.4, ease: 'easeInOut' }}
+                style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '10px', color: '#B4E650', opacity: 0.7 }}
+              >
+                ↓
+              </motion.span>
+              <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '8px', letterSpacing: '0.2em', color: '#8A9A7A', textTransform: 'uppercase' }}>
+                drag bottom stub to tear
+              </span>
+            </div>
+            {/* Desktop hint (shown at sm and above) */}
+            <div className="hidden sm:flex items-center gap-2 w-full justify-end pr-8">
+              <motion.span
+                animate={{ x: [0, 5, 0] }}
+                transition={{ repeat: Infinity, duration: 1.4, ease: 'easeInOut' }}
+                style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '10px', color: '#1E3B45', opacity: 0.5 }}
+              >
+                →
+              </motion.span>
+              <span style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '8px', letterSpacing: '0.2em', color: '#8A9A7A', textTransform: 'uppercase' }}>
+                drag stub to tear
+              </span>
+            </div>
+          </motion.div>
+
+          <p style={{ fontFamily: 'var(--font-mono), monospace', fontSize: '9px', letterSpacing: '0.18em', color: '#6E8388', textTransform: 'uppercase', marginTop: '12px', textAlign: 'center' }}>
+            Admission free <span style={{ color: '#B4E650' }}>·</span> Non-transferable <span style={{ color: '#B4E650' }}>·</span> Open all hours
           </p>
         </div>
       </div>
@@ -227,7 +262,6 @@ export default function ScrollStrokePath() {
 }
 
 function LinePath({ className, scrollYProgress }: { className: string; scrollYProgress: any }) {
-  // Start at 0.22 so the flower is pre-drawn on page load; tail draws as user scrolls
   const pathLength = useTransform(scrollYProgress, [0.05, 0.60], [0.22, 1])
   return (
     <svg width="1278" height="2319" viewBox="0 0 1278 2319" fill="none" overflow="visible" xmlns="http://www.w3.org/2000/svg" className={className}>
